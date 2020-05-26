@@ -40,7 +40,7 @@ class RegisterFrame implements ActionListener {
         registerFrame.setLocationRelativeTo(null);
         registerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // 引入背景
-        ImageIcon registerBackgroundImageIcon = new ImageIcon("src\\res\\bg\\bg3.jpg");
+        ImageIcon registerBackgroundImageIcon = new ImageIcon("CSHT-Client\\src\\res\\bg\\bg3.jpg");
         JLabel registerBackgroundLabel = new JLabel();
         registerBackgroundLabel.setIcon(registerBackgroundImageIcon);
         registerBackgroundLabel.setBounds(0, 0, registerBackgroundImageIcon.getIconWidth(), registerBackgroundImageIcon.getIconHeight());
@@ -91,8 +91,8 @@ class RegisterFrame implements ActionListener {
         JPanel registerButtonPanel = new JPanel();
         registerButtonPanel.setOpaque(false);
         registerButton.setBorder(null);
-        registerButton.setIcon(new ImageIcon("src\\res\\icon\\register.png"));
-        registerButton.setPressedIcon(new ImageIcon("src\\res\\icon\\register2.png"));
+        registerButton.setIcon(new ImageIcon("CSHT-Client\\src\\res\\icon\\register.png"));
+        registerButton.setPressedIcon(new ImageIcon("CSHT-Client\\src\\res\\icon\\register2.png"));
         registerButton.setContentAreaFilled(false);
         registerButtonPanel.add(registerButton);
         // 跳转到登陆界面

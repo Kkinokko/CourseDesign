@@ -30,7 +30,7 @@ class WelcomeFrame {
         welcomeFrame.setLocationRelativeTo(null);
         welcomeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // 引入背景
-        ImageIcon welcomeBackgroundImageIcon = new ImageIcon("src\\res\\bg\\bg1.jpg");
+        ImageIcon welcomeBackgroundImageIcon = new ImageIcon("CSHT-Client\\src\\res\\bg\\bg1.jpg");
         JLabel welcomeBackgroundLabel = new JLabel();
         welcomeBackgroundLabel.setIcon(welcomeBackgroundImageIcon);
         welcomeBackgroundLabel.setBounds(0, 0, welcomeBackgroundImageIcon.getIconWidth(), welcomeBackgroundImageIcon.getIconHeight());
@@ -52,13 +52,13 @@ class WelcomeFrame {
         welcomeButtonPanel.setOpaque(false);
         JButton welcomeRegisterButton = new JButton();
         welcomeRegisterButton.setBorder(null);
-        welcomeRegisterButton.setIcon(new ImageIcon("src\\res\\icon\\register.png"));
-        welcomeRegisterButton.setPressedIcon(new ImageIcon("src\\res\\icon\\register2.png"));
+        welcomeRegisterButton.setIcon(new ImageIcon("CSHT-Client\\src\\res\\icon\\register.png"));
+        welcomeRegisterButton.setPressedIcon(new ImageIcon("CSHT-Client\\src\\res\\icon\\register2.png"));
         welcomeRegisterButton.setContentAreaFilled(false);
         JButton welcomeLoginButton = new JButton();
         welcomeLoginButton.setBorder(null);
-        welcomeLoginButton.setIcon(new ImageIcon("src\\res\\icon\\login.png"));
-        welcomeLoginButton.setPressedIcon(new ImageIcon("src\\res\\icon\\login2.png"));
+        welcomeLoginButton.setIcon(new ImageIcon("CSHT-Client\\src\\res\\icon\\login.png"));
+        welcomeLoginButton.setPressedIcon(new ImageIcon("CSHT-Client\\src\\res\\icon\\login2.png"));
         welcomeLoginButton.setContentAreaFilled(false);
         welcomeButtonPanel.add(welcomeRegisterButton);
         welcomeButtonPanel.add(welcomeLoginButton);
