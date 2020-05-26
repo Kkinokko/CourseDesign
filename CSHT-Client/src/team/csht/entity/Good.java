@@ -11,17 +11,22 @@ public class Good implements Serializable {
     private String name;
     private String merchant;
     private String buyer;
-    private float price;
+    private double price;
     private boolean existence = true;
     private Icon icon;
 
     public Good() {
         super();
     }
-    public Good(String id, String name, float price) {
+    public Good(String id, String name, double price) {
         super();
         this.id=id;
         this.name=name;
+        this.price=price;
+    }
+    public Good(String name, double price){
+        super();
+        this.name= name;
         this.price=price;
     }
 
@@ -49,7 +54,7 @@ public class Good implements Serializable {
     public void setBuyer(String buyer) {
         this.buyer = buyer;
     }
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
     public void setPrice(float price) {

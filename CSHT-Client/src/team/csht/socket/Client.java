@@ -1,5 +1,7 @@
 package team.csht.socket;
 
+import team.csht.entity.Good;
+import team.csht.entity.User;
 import team.csht.util.CommandTranser;
 
 import java.io.IOException;
