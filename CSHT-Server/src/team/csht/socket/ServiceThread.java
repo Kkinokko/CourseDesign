@@ -87,18 +87,14 @@ public class ServiceThread extends Thread {
         else if ("addGood".equals(message.getCommand())) {
             GoodService goodService = new GoodService();
             Good good = (Good)message.getData();
-            if(!goodService.addGood(good)){
+            boolean hasGood = goodService.checkGood(good.getName(), good.getMerchant());
+            if (!hasGood) {
+                message.setFlag(goodService.addGood(good));
                 message.setResult("addGoodSucceeded");
             }
-            else {message.setResult("addGoodFailed");}
-        }
-        else if("deleteGood".equals(message.getCommand())){
-            GoodService goodService = new GoodService();
-            Good good = (Good)message.getData();
-            if(!goodService.checkGood(good)){
-                message.setResult("goodDeleteSucceeded");
+            else {
+                message.setResult("goodDuplicated");
             }
-            else{message.setResult("goodDeleteFailed");}
         }
         return message;
     }

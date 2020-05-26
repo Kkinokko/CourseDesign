@@ -1,11 +1,10 @@
 package team.csht.UI.welcome;
 
-import com.sun.net.httpserver.HttpServer;
 import team.csht.entity.User;
 import team.csht.socket.Client;
 import team.csht.util.CommandTranser;
 
-import java.awt.*;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -19,23 +18,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-//import javax.servlet.http.HttpSession;
 
 /** @author MnAs & Fe */
-public class Login{
-    public Login(){
-    LoginFrame log = new LoginFrame();
-    }
-    public static final User logUser = new User(LoginFrame.loginUsernameTextField.getText(), LoginFrame.loginPasswordField.getText());
-}
-
 class LoginFrame implements ActionListener {
     final int DEFAULT_WIDTH = 800;
     final int DEFAULT_HEIGHT = 600;
 
     JFrame loginFrame = new JFrame();
-    public static JTextField loginUsernameTextField = new JTextField(20);
-    public static JPasswordField loginPasswordField = new JPasswordField(20);
+    private JTextField loginUsernameTextField = new JTextField(20);
+    private JPasswordField loginPasswordField = new JPasswordField(20);
     private JButton loginButton = new JButton();
 
     public LoginFrame() {
@@ -146,8 +137,6 @@ class LoginFrame implements ActionListener {
             message = client.getData();
             if (message != null) {
                 if (message.isFlag()) {
-                    //HttpSession session;
-                    //HttpServletRequest request;
                     JOptionPane.showMessageDialog(null, "登陆成功！");
                     jumpToMain();
                 }
@@ -157,5 +146,4 @@ class LoginFrame implements ActionListener {
             }
         }
     }
-
 }

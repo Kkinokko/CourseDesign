@@ -6,17 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main extends JFrame {
-    public Main(){
-        MainFrame main = new MainFrame();
-        Good first = new Good("001","卡片",1);
-        Good second = new Good("002","抹布",10);
-        Good third = new Good("003","miku",1000);
-        Good forth = new Good("004","空",2);
-        main.addGood1(first);
-        main.addGood1(second);
-        main.addGood1(third);
-        main.addGood1(forth);
-    }
     public static void main(String[] args)
     {
         MainFrame main = new MainFrame();
@@ -31,32 +20,72 @@ public class Main extends JFrame {
     }
 }
 
- class MainFrame extends JFrame{
+class MainFrame{
     Box right1 = Box.createVerticalBox();
-     JFrame mainFrame = new JFrame();
-    //JPanel right = new JPanel();
+    JPanel right = new JPanel();
     public  MainFrame(){
         //初始化
+        JFrame mainFrame = new JFrame();
         mainFrame.setResizable(false);
         mainFrame.setSize(700, 500);
         mainFrame.setTitle("学生闲置物品交易平台主界面");
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //背景
-        ImageIcon bgi=new ImageIcon("CSHT-Client\\src\\res\\bg\\bgm.png");
+        ImageIcon bgi=new ImageIcon("src\\res\\icon\\bgm.png");
         JLabel bg = new JLabel();
         bg.setIcon(bgi);
         bg.setBounds(0,0,bgi.getIconWidth(),bgi.getIconHeight());
         mainFrame.getLayeredPane().add(bg, Integer.valueOf(Integer.MIN_VALUE));
         //菜单栏
-        Menu ll = new Menu();
-        ll.a2.addActionListener(e -> {
-            if(e.getSource()==ll.a2){
-                new UploadFrame();
-                mainFrame.dispose();
-            }
-        });
-        Box left = ll.getMenu();
+        Box left = Box.createVerticalBox();
+        JPanel l1=new JPanel();
+        JButton a1 = new JButton("浏览商品");
+        a1.setForeground(Color.white);
+        a1.setContentAreaFilled(false);
+        a1.setBorder(null);
+        a1.setFocusPainted(false);
+        l1.add(a1);
+        l1.setOpaque(false);
+        JPanel l2=new JPanel();
+        JButton a2 = new JButton("上传商品");
+        a2.setForeground(Color.white);
+        a2.setContentAreaFilled(false);
+        a2.setBorder(null);
+        a2.setFocusPainted(false);
+        l2.add(a2);
+        l2.setOpaque(false);
+        JPanel l3=new JPanel();
+        JButton a3 = new JButton("商品管理");
+        a3.setForeground(Color.white);
+        a3.setContentAreaFilled(false);
+        a3.setBorder(null);
+        a3.setFocusPainted(false);
+        l3.add(a3);
+        l3.setOpaque(false);
+        JPanel l4=new JPanel();
+        JButton a4 = new JButton("查看订单");
+        a4.setForeground(Color.white);
+        a4.setContentAreaFilled(false);
+        a4.setBorder(null);
+        a4.setFocusPainted(false);
+        l4.add(a4);
+        l4.setOpaque(false);
+        JPanel l5=new JPanel();
+        JButton a5 = new JButton("个人中心");
+        a5.setForeground(Color.white);
+        a5.setContentAreaFilled(false);
+        a5.setBorder(null);
+        a5.setFocusPainted(false);
+        l5.add(a5);
+        l5.setOpaque(false);
+
+        left.add(l1);
+        left.add(l2);
+        left.add(l3);
+        left.add(l4);
+        left.add(l5);
+        left.add(Box.createVerticalStrut(300));
         //
         JScrollPane jsp= new JScrollPane();
         jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -71,13 +100,12 @@ public class Main extends JFrame {
         mainFrame.setContentPane(all);
         mainFrame.setVisible(true);
 
-
     }
     public void addGood1(Good g){
         // picture 待会请务必把图片地址改了！！！！
         JPanel c1= new JPanel();
         JLabel g1= new JLabel();
-        ImageIcon g0 = new ImageIcon("CSHT-Client\\src\\res\\icon\\login2.png");
+        ImageIcon g0 = new ImageIcon("src\\res\\icon\\login2.png");
         g0.setImage(g0.getImage().getScaledInstance(200, 120, Image.SCALE_DEFAULT ));
         g1.setIcon(g0);
         g1.setSize(200,120);
@@ -85,10 +113,6 @@ public class Main extends JFrame {
         c1.setOpaque(false);
         // button
         JButton g2 = new JButton("详细信息");
-        g2.addActionListener(e -> {
-            new Single(g);
-            mainFrame.dispose();
-        });
         JButton g3 = new JButton("购买商品");
         JPanel c2 = new JPanel();
         c2.add(g2);
@@ -98,7 +122,6 @@ public class Main extends JFrame {
         JLabel g4 = new JLabel("商品名称： "+g.getName());
         JLabel g5 = new JLabel("商家： "+g.getMerchant());
         JButton g6 = new JButton("联系");
-        //记得以后给这个按钮一个交代。。。
         JLabel g7 = new JLabel("价格： "+g.getPrice());
         JPanel c3 =new JPanel();
         JPanel c4 = new JPanel();
@@ -125,6 +148,3 @@ public class Main extends JFrame {
         right1.add(Box.createVerticalStrut(70));
     }
 }
-
-
-

@@ -11,7 +11,6 @@ public class CommandTranser implements Serializable {
     private Object data = null;
     private boolean flag = false;
     private String command = null;
-
     private String result = null;
 
     public String getSender() {
