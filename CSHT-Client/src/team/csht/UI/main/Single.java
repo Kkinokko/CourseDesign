@@ -43,8 +43,9 @@ public class Single {
             Box leftUp = Box.createHorizontalBox();
             JLabel picture = new JLabel();
             //图片展示
-            ImageIcon a = (ImageIcon) (g.getIcon());
-            //a.setImage(a.getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT));
+            /*ImageIcon a = (ImageIcon) (g.getIcon());*/
+            ImageIcon a = new ImageIcon("src\\res\\icon\\login2.png");
+            a.setImage(a.getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT));
             picture.setSize(300, 300);
             picture.setIcon(a);
             leftUp.add(Box.createHorizontalStrut(50));

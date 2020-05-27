@@ -43,7 +43,7 @@ public class Main extends JFrame {
          g2.addActionListener(e -> {
              if(e.getSource()==g2){
                  new Single(g);
-                 mainFrame.dispose();
+                 this.dispose();
              }
          });
          JButton g3 = new JButton("购买商品");
