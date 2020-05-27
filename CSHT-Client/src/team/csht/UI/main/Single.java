@@ -9,13 +9,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 
 public class Single {
-    public Single(Good g){
-        SingleFrame goo=new SingleFrame(g);
-    }
-}
-    class SingleFrame
-    {
-        public SingleFrame(Good g) {
+
+        public Single(Good g) {
             //初始化
             JFrame singleFrame = new JFrame();
             singleFrame.setResizable(false);
@@ -24,7 +19,7 @@ public class Single {
             singleFrame.setLocationRelativeTo(null);
             singleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             //背景
-            ImageIcon bgi = new ImageIcon("CSHT-Client\\src\\res\\bg\\bgm.png");
+            ImageIcon bgi = new ImageIcon("src\\res\\bg\\bgm.png");
             JLabel bg = new JLabel();
             bg.setIcon(bgi);
             bg.setBounds(0, 0, bgi.getIconWidth(), bgi.getIconHeight());
@@ -48,10 +43,10 @@ public class Single {
             Box leftUp = Box.createHorizontalBox();
             JLabel picture = new JLabel();
             //图片展示
-            ImageIcon a = (ImageIcon) g.getIcon();
-            a.setImage(a.getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT));
-            picture.setIcon(a);
+            ImageIcon a = (ImageIcon) (g.getIcon());
+            //a.setImage(a.getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT));
             picture.setSize(300, 300);
+            picture.setIcon(a);
             leftUp.add(Box.createHorizontalStrut(50));
             leftUp.add(picture);
             //下方界面主体

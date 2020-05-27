@@ -43,7 +43,7 @@ public class Main extends JFrame {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //背景
-        ImageIcon bgi=new ImageIcon("CSHT-Client\\src\\res\\bg\\bgm.png");
+        ImageIcon bgi=new ImageIcon("src\\res\\bg\\bgm.png");
         JLabel bg = new JLabel();
         bg.setIcon(bgi);
         bg.setBounds(0,0,bgi.getIconWidth(),bgi.getIconHeight());
@@ -77,7 +77,11 @@ public class Main extends JFrame {
         // picture 待会请务必把图片地址改了！！！！
         JPanel c1= new JPanel();
         JLabel g1= new JLabel();
-        ImageIcon g0 = new ImageIcon("CSHT-Client\\src\\res\\icon\\login2.png");
+        ImageIcon g0 = new ImageIcon("src\\res\\icon\\login2.png");
+        //之后把这里改了
+        g.setIcon(g0);
+
+        //之后把这里改了
         g0.setImage(g0.getImage().getScaledInstance(200, 120, Image.SCALE_DEFAULT ));
         g1.setIcon(g0);
         g1.setSize(200,120);
@@ -86,8 +90,10 @@ public class Main extends JFrame {
         // button
         JButton g2 = new JButton("详细信息");
         g2.addActionListener(e -> {
+            if(e.getSource()==g2){
             new Single(g);
             mainFrame.dispose();
+            }
         });
         JButton g3 = new JButton("购买商品");
         JPanel c2 = new JPanel();
