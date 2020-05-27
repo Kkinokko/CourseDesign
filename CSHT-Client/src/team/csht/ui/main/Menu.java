@@ -1,5 +1,4 @@
-package team.csht.UI.main;
-import team.csht.UI.welcome.Welcome;
+package team.csht.ui.main;
 
 import javax.swing.*;
 import java.awt.*;

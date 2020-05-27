@@ -1,4 +1,4 @@
-package team.csht.UI.welcome;
+package team.csht.ui.welcome;
 
 import team.csht.entity.User;
 import team.csht.socket.Client;

@@ -1,4 +1,4 @@
-package team.csht.UI.welcome;
+package team.csht.ui.welcome;
 
 import java.awt.Color;
 import java.awt.Font;

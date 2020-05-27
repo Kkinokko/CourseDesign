@@ -1,19 +1,14 @@
-package team.csht.UI.main;
+package team.csht.ui.main;
 import team.csht.entity.Good;
-import team.csht.entity.User;
 import team.csht.socket.Client;
 import team.csht.util.CommandTranser;
-import team.csht.UI.welcome.Login;
+import team.csht.ui.welcome.Login;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FileFilter;
 
 
 public class Upload {

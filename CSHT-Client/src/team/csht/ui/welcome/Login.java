@@ -1,6 +1,5 @@
-package team.csht.UI.welcome;
+package team.csht.ui.welcome;
 
-import com.sun.net.httpserver.HttpServer;
 import team.csht.entity.User;
 import team.csht.socket.Client;
 import team.csht.util.CommandTranser;
@@ -116,7 +115,7 @@ class LoginFrame implements ActionListener {
         loginPasswordField.setText("");
         loginFrame.dispose();
     }
-    public void jumpToMain() {
+    public void jumpToMain(String username) {
         loginUsernameTextField.setText("");
         loginPasswordField.setText("");
         // TODO:跳转到MainFrame(需保留账号信息)
@@ -149,7 +148,7 @@ class LoginFrame implements ActionListener {
                     //HttpSession session;
                     //HttpServletRequest request;
                     JOptionPane.showMessageDialog(null, "登陆成功！");
-                    jumpToMain();
+                    jumpToMain(username);
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "登录失败");

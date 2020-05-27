@@ -1,4 +1,4 @@
-package team.csht.UI.main;
+package team.csht.ui.main;
 
 import team.csht.entity.Good;
 
@@ -7,22 +7,23 @@ import java.awt.*;
 
 public class Main extends JFrame {
     public Main(){
-        new MainFrame();
+        new MainFrame("username0");
     }
     public static void main(String[] args)
     {
 
-        new MainFrame();
+        new MainFrame("username0");
 
     }
 }
 
  class MainFrame1 extends JFrame{
+    String username = "";
     Box right1 = Box.createVerticalBox();
      JFrame mainFrame = new JFrame();
     //JPanel right = new JPanel();
-    public  MainFrame1(){
-
+    public  MainFrame1(String username){
+        this.username = username;
     }
     public void addGood1(Good g){
          // picture 待会请务必把图片地址改了！！！！
@@ -84,13 +85,13 @@ public class Main extends JFrame {
 }
 
 class MainFrame {
-    public MainFrame(){
+    public MainFrame(String username){
 
         Good first = new Good("001","卡片",1);
         Good second = new Good("002","抹布",10);
         Good third = new Good("003","miku",1000);
         Good forth = new Good("004","空",2);
-        MainFrame1 main = new MainFrame1();
+        MainFrame1 main = new MainFrame1("username0");
 
         main.setResizable(false);
         main.setSize(700, 500);
@@ -131,6 +132,3 @@ class MainFrame {
         main.setVisible(true);
     }
 }
-
-
-

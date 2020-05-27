@@ -1,12 +1,9 @@
-package team.csht.UI.main;
+package team.csht.ui.main;
 
 import team.csht.entity.Good;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.io.File;
 
 public class Single {
 
