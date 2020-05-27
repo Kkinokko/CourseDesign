@@ -7,11 +7,12 @@ import java.awt.*;
 
 public class Main extends JFrame {
     public Main(){
-        MainFrame main = new MainFrame();
+
         Good first = new Good("001","卡片",1);
         Good second = new Good("002","抹布",10);
         Good third = new Good("003","miku",1000);
         Good forth = new Good("004","空",2);
+        MainFrame main = new MainFrame();
         main.addGood1(first);
         main.addGood1(second);
         main.addGood1(third);
@@ -19,15 +20,9 @@ public class Main extends JFrame {
     }
     public static void main(String[] args)
     {
-        MainFrame main = new MainFrame();
-        Good first = new Good("001","卡片",1);
-        Good second = new Good("002","抹布",10);
-        Good third = new Good("003","miku",1000);
-        Good forth = new Good("004","空",2);
-        main.addGood1(first);
-        main.addGood1(second);
-        main.addGood1(third);
-        main.addGood1(forth);
+
+        new Main();
+
     }
 }
 
@@ -67,6 +62,7 @@ public class Main extends JFrame {
         all.add(left);
         all.add(Box.createHorizontalStrut(80));
         all.add(jsp);
+
 
         mainFrame.setContentPane(all);
         mainFrame.setVisible(true);
