@@ -39,7 +39,7 @@ class UploadFrame extends JFrame
         updateFrame.setLocationRelativeTo(null);
         updateFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //背景
-        ImageIcon bgi=new ImageIcon("CSHT-Client\\src\\res\\bg\\bgm.png");
+        ImageIcon bgi=new ImageIcon("src\\res\\bg\\bgm.png");
         JLabel bg = new JLabel();
         bg.setIcon(bgi);
         bg.setBounds(0,0,bgi.getIconWidth(),bgi.getIconHeight());
@@ -57,7 +57,7 @@ class UploadFrame extends JFrame
         Box leftUp = Box.createHorizontalBox();
         JButton picture = new JButton();
         //图片选择器
-        ImageIcon a = new ImageIcon("CSHT-Client\\src\\res\\icon\\login2.png");
+        ImageIcon a = new ImageIcon("src\\res\\icon\\login2.png");
         a.setImage(a.getImage().getScaledInstance(300, 300,Image.SCALE_DEFAULT ));
         picture.setIcon(a);
         picture.setSize(300,300);
