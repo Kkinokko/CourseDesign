@@ -1,4 +1,4 @@
-package team.csht.UI;
+package team.csht.ui;
 
 import team.csht.socket.Service;
 
@@ -44,7 +44,6 @@ class ServerFrame implements ActionListener {
         }
     }
 }
-
 class ServerStartThread extends Thread {
     @Override
     public void run() {
