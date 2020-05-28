@@ -56,17 +56,19 @@ class IMFrame implements ActionListener {
         // 中间的聊天记录框
         JPanel logPanel = new JPanel();
         logLabel.setLineWrap(true);
+        logLabel.setEditable(false);
+        logLabel.setBackground(null);
         logLabel.setFont(new Font(null, Font.PLAIN,18));
         logPanel.add(logLabel);
         logLabel.setSize(30,500);
-        JScrollPane jsp= new JScrollPane(){//sp1滚动面板的大小
+        JScrollPane jsp= new JScrollPane(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER){//jsp滚动面板的大小
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(150,300);//括号内参数，可以根据需要更改
             }
         };
-        jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jsp.setOpaque(false);
         jsp.getViewport().setOpaque(false);
         jsp.setViewportView(logPanel);
