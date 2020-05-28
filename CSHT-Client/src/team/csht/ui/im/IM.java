@@ -20,7 +20,7 @@ class IMFrame implements ActionListener {
     JFrame imFrame = new JFrame();
     JTextField receiverTextField = new JTextField(15);
     JButton receiverButton = new JButton("确认");
-    JLabel logLabel = new JLabel();
+    JTextArea logLabel = new JTextArea();
     JTextArea sendTextArea = new JTextArea(2,38);
     JButton sendButton = new JButton("发送");
 
@@ -55,6 +55,8 @@ class IMFrame implements ActionListener {
         receiverPanel.add(receiverButton);
         // 中间的聊天记录框
         JPanel logPanel = new JPanel();
+        logLabel.setLineWrap(true);
+        logLabel.setFont(new Font(null, Font.PLAIN,18));
         logPanel.add(logLabel);
         logLabel.setSize(30,500);
         JScrollPane jsp= new JScrollPane(){//sp1滚动面板的大小
@@ -64,6 +66,7 @@ class IMFrame implements ActionListener {
             }
         };
         jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jsp.setOpaque(false);
         jsp.getViewport().setOpaque(false);
         jsp.setViewportView(logPanel);
