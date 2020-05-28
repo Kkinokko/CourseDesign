@@ -7,7 +7,7 @@ public class Menu {
     public Box left = Box.createVerticalBox();
     public JButton a1 = new JButton("浏览商品");
     public JButton a2 = new JButton("上传商品");
-    public  JButton a3 = new JButton("商品管理");
+    public  JButton a3 = new JButton("消息中心");
     public JButton a4 = new JButton("查看订单");
     public JButton a5 = new JButton("个人中心");
     public   Menu(){

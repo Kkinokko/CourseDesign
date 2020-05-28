@@ -53,7 +53,7 @@ public class Main extends JFrame {
          c2.setOpaque(false);
          // right
          JLabel g4 = new JLabel("商品名称： "+g.getName());
-         JLabel g5 = new JLabel("商家： "+g.getMerchant());
+         JLabel g5 = new JLabel("卖家： "+g.getMerchant());
          JButton g6 = new JButton("联系");
          //记得以后给这个按钮一个交代。。。
          JLabel g7 = new JLabel("价格： "+g.getPrice());
