@@ -14,6 +14,7 @@ public class IM {
 }
 class IMFrame implements ActionListener {
     String username = "username0";
+    String friend = "username1";
     Client client = null;
 
     JFrame imFrame = new JFrame();
@@ -65,6 +66,12 @@ class IMFrame implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == receiverButton) {
+            this.friend = receiverTextField.getText();
+        }
+        if (e.getSource() == sendButton) {
+            String content = sendTextArea.getText();
 
+        }
     }
 }
