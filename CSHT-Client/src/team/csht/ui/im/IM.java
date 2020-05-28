@@ -1,10 +1,12 @@
 package team.csht.ui.im;
 import team.csht.socket.Client;
+import team.csht.util.CommandTranser;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.*;
 /** @author MnAs & Fe */
 public class IM {
@@ -97,6 +99,23 @@ class IMFrame implements ActionListener {
         // 显示
         imFrame.setContentPane(lastBox);
         imFrame.setVisible(true);
+
+        /*--- 线程 ---*/
+        // TODO:如下
+        //thread = new ClientThread(client, chat_txt);
+        //thread.start();
+
+        /*--- 事件 ---*/
+        imFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                //thread.setOnline(false);
+            }
+            @Override
+            public void windowClosed(WindowEvent e) {
+                //thread.setOnline(false);
+            }
+        });
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -105,7 +124,19 @@ class IMFrame implements ActionListener {
         }
         if (e.getSource() == sendButton) {
             String content = sendTextArea.getText();
+            Date date = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd hh:mm:ss a");
+            //String messageString = "你说：" + message_txt.getText() + "\t"
+            //        + simpleDateFormat.format(date) + "\n";
+            //chat_txt.append(message);
 
+            CommandTranser msg = new CommandTranser();
+            msg.setCommand("message");
+            msg.setSender(username);
+            msg.setReceiver(friend);
+            //msg.setData(message_txt.getText());
+            client.sendData(msg);
+            //message_txt.setText(null);
         }
     }
 }
