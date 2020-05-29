@@ -1,5 +1,6 @@
 package team.csht.ui.im;
 import team.csht.socket.Client;
+import team.csht.socket.ClientThread;
 import team.csht.util.CommandTranser;
 
 import java.awt.*;
@@ -18,6 +19,7 @@ class IMFrame implements ActionListener {
     String username = "username0";
     String friend = "username1";
     Client client = null;
+    ClientThread thread;
 
     JFrame imFrame = new JFrame();
     JTextField receiverTextField = new JTextField(15);
@@ -102,18 +104,18 @@ class IMFrame implements ActionListener {
 
         /*--- 线程 ---*/
         // TODO:如下
-        //thread = new ClientThread(client, chat_txt);
-        //thread.start();
+        thread = new ClientThread(client, logLabel);
+        thread.start();
 
         /*--- 事件 ---*/
         imFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                //thread.setOnline(false);
+                thread.setOnline(false);
             }
             @Override
             public void windowClosed(WindowEvent e) {
-                //thread.setOnline(false);
+                thread.setOnline(false);
             }
         });
     }
@@ -126,17 +128,17 @@ class IMFrame implements ActionListener {
             String content = sendTextArea.getText();
             Date date = new Date();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd hh:mm:ss a");
-            //String messageString = "你说：" + message_txt.getText() + "\t"
-            //        + simpleDateFormat.format(date) + "\n";
-            //chat_txt.append(message);
+            String messageString = "你说：" + sendTextArea.getText() + "\t"
+                    + simpleDateFormat.format(date) + "\n";
+            logLabel.append(messageString);
 
             CommandTranser msg = new CommandTranser();
             msg.setCommand("message");
             msg.setSender(username);
             msg.setReceiver(friend);
-            //msg.setData(message_txt.getText());
+            msg.setData(sendTextArea.getText());
             client.sendData(msg);
-            //message_txt.setText(null);
+            sendTextArea.setText(null);
         }
     }
 }
