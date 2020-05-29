@@ -65,7 +65,7 @@ class IMFrame implements ActionListener {
         logLabel.setSize(30,500);
         JScrollPane jsp= new JScrollPane(
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER){//jsp滚动面板的大小
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER){//sp1滚动面板的大小
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(150,300);//括号内参数，可以根据需要更改
