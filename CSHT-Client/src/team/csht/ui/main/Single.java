@@ -1,12 +1,18 @@
 package team.csht.ui.main;
 
 import team.csht.entity.Good;
+import team.csht.socket.Client;
+import team.csht.ui.welcome.Login;
+import team.csht.util.CommandTranser;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Single {
+import static team.csht.ui.welcome.Login.userName;
 
+public class Single {
+    private Label loginUsernameTextField;
+    String username = userName;
         public Single(Good g) {
             //初始化
             JFrame singleFrame = new JFrame();
@@ -50,18 +56,47 @@ public class Single {
             //下方界面主体
             JPanel updateNamePanel = new JPanel();
             updateNamePanel.setOpaque(false);
-            JLabel updateNameLabel = new JLabel("商品名:"+g.getName());
+            JLabel updateNameLabel = new JLabel("商品名: "+g.getName());
             updateNamePanel.add(updateNameLabel);
 
             JPanel updatePricePanel = new JPanel();
             updatePricePanel.setOpaque(false);
-            JLabel updatePriceLabel = new JLabel("\u3000售价"+g.getPrice());
+            JLabel updatePriceLabel = new JLabel("\u3000售价: "+g.getPrice());
             updatePricePanel.add(updatePriceLabel);
 
             JPanel singleMerchantPanel = new JPanel();
             singleMerchantPanel.setOpaque(false);
-            JLabel singleMerchantLabel = new JLabel("\u3000商家");
+            JLabel singleMerchantLabel = new JLabel("\u3000商家: "+g.getMerchant());
             JButton singleMerchantButton = new JButton("联系");
+
+            JPanel reloadPanel = new JPanel();
+            reloadPanel.setOpaque(false);
+            JButton reload = new JButton("下架此商品");
+            reload.addActionListener(e -> {
+                if(e.getSource()==reload){
+                    g.setExistence(false);
+
+                    CommandTranser message = new CommandTranser();
+                    message.setCommand("deleteGood");
+                    message.setData(g);
+                    message.setSender(Login.userName);
+                    message.setReceiver(Login.userName);
+                    Client client = new Client();
+                    client.sendData(message);
+                    message = client.getData();
+
+                    if (message != null) {
+                        if (message.isFlag()) {
+                            JOptionPane.showMessageDialog(null, "商品下架成功！");
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "商品下架失败!");
+                        }
+                    }
+                }
+            });
+            reloadPanel.add(reload);
+
             //记得给按钮一个交代.....
             singleMerchantPanel.add(singleMerchantLabel);
             singleMerchantPanel.add(singleMerchantButton);
@@ -72,6 +107,9 @@ public class Single {
             right.add(updateNamePanel);
             right.add(updatePricePanel);
             right.add(singleMerchantPanel);
+            if(username.equals(g.getMerchant())){
+            right.add(reloadPanel);
+            }
             right.setOpaque(false);
             /*
 

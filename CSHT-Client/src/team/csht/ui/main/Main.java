@@ -87,6 +87,7 @@ class MainFrame {
     public MainFrame(String username){
 
         Good first = new Good("001","卡片",1);
+        first.setMerchant("username0");
         Good second = new Good("002","抹布",10);
         Good third = new Good("003","miku",1000);
         Good forth = new Good("004","空",2);
