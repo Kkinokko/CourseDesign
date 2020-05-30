@@ -44,6 +44,7 @@ public class Client {
         }
         catch (UnknownHostException e) {
             JOptionPane.showMessageDialog(null, "错误码02");
+            e.printStackTrace();
         }
         catch (IOException e) {
             JOptionPane.showMessageDialog(null, "错误码03");
@@ -61,11 +62,9 @@ public class Client {
             message = (CommandTranser)ois.readObject();
         }
         catch (IOException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "错误码04");
             e.printStackTrace();
             return null;
-        }
-        if ("message".equals(message.getCommand())) {
-            System.out.println((String)message.getData());
         }
         return message;
     }

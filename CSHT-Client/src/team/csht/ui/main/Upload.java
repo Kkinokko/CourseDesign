@@ -84,6 +84,7 @@ class UploadFrame extends JFrame
         updatePricePanel.add(updatePriceLabel);
         //价格栏只能输入数字
         updatePrice.addKeyListener(new KeyAdapter(){
+            @Override
             public void keyTyped(KeyEvent e) {
                 int keyChar = e.getKeyChar();
                 if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9){

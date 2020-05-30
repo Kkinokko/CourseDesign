@@ -147,8 +147,6 @@ class LoginFrame implements ActionListener {
             message = client.getData();
             if (message != null) {
                 if (message.isFlag()) {
-                    //HttpSession session;
-                    //HttpServletRequest request;
                     JOptionPane.showMessageDialog(null, "登陆成功！");
                     jumpToMain(username);
                 }
