@@ -13,7 +13,7 @@ import java.io.File;
 
 public class Upload {
     public static void  main (String[] args){
-    UploadFrame a = new UploadFrame();
+    UploadFrame a = new UploadFrame("username0");
     }
 }
 
@@ -24,7 +24,7 @@ class UploadFrame extends JFrame
     private JTextField updateName = new JTextField(15);
     private  JTextField updatePrice = new JTextField(15);
 
-    public UploadFrame()
+    public UploadFrame(String username)
     {
         //初始化
         JFrame updateFrame = new JFrame();
@@ -44,6 +44,7 @@ class UploadFrame extends JFrame
         ll.a1.addActionListener(e -> {
             if(e.getSource()==ll.a1){
                 new Main();
+                //TODO:username加上
                 updateFrame.dispose();
             }
         });
@@ -126,7 +127,7 @@ class UploadFrame extends JFrame
 
     }
 
-    public void updateGood(){
+    public void updateGood(String username){
         String name = updateName.getText().trim();
         String price0 = updatePrice.getText();
         if (name==null||"".equals(name)){
@@ -154,8 +155,8 @@ class UploadFrame extends JFrame
         CommandTranser message = new CommandTranser();
         message.setCommand("addGood");
         message.setData(g);
-        message.setSender(Login.userName);
-        message.setReceiver(Login.userName);
+        message.setSender(username);
+        message.setReceiver(username);
         Client client = new Client();
         client.sendData(message);
         message = client.getData();
