@@ -23,11 +23,13 @@ class ServerFrame implements ActionListener {
         serverFrame.setTitle("学生闲置物品交易平台 - 服务器端");
         serverFrame.setLocationRelativeTo(null);
         serverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         JPanel serverPanel = new JPanel();
         serverPanel.add(serverStartButton);
         serverPanel.add(serverEndButton);
         serverFrame.setContentPane(serverPanel);
         serverFrame.setVisible(true);
+
         // 按键监听
         serverStartButton.addActionListener(this);
         serverEndButton.addActionListener(this);
@@ -44,6 +46,7 @@ class ServerFrame implements ActionListener {
         }
     }
 }
+
 class ServerStartThread extends Thread {
     @Override
     public void run() {

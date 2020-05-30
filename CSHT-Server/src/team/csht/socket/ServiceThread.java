@@ -5,6 +5,7 @@ import team.csht.entity.SocketThread;
 import team.csht.entity.User;
 import team.csht.service.GoodService;
 import team.csht.service.UserService;
+import team.csht.util.CommandAnalyser;
 import team.csht.util.CommandTranser;
 import team.csht.util.SocketList;
 
@@ -30,22 +31,19 @@ public class ServiceThread extends Thread {
             try {
                 ois = new ObjectInputStream(socket.getInputStream());
                 CommandTranser message = (CommandTranser)ois.readObject();
-                message = execute(message);
-                try {
-                    if (socket == null) {
-                        return;
+                message = CommandAnalyser.analyse(message, socket);
+                if (message.getSender().equals(message.getReceiver())) {
+                    oos = new ObjectOutputStream(socket.getOutputStream());
+                    oos.writeObject(message);
+                }
+                else{
+                    if (message.isFlag()) {
+                        oos = new ObjectOutputStream(SocketList.getSocket(
+                                message.getReceiver()).getOutputStream());
                     }
-                    if (message.getReceiver().equals(message.getSender())) {
+                    else {
                         oos = new ObjectOutputStream(socket.getOutputStream());
-                        oos.writeObject(message);
                     }
-                }
-                catch (UnknownHostException e) {
-                    JOptionPane.showMessageDialog(null, "错误码02");
-                }
-                catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "错误码03");
-                    e.printStackTrace();
                 }
             }
             catch (IOException e) {
@@ -55,51 +53,5 @@ public class ServiceThread extends Thread {
                 e.printStackTrace();
             }
         }
-    }
-    private CommandTranser execute(CommandTranser message) {
-        if ("login".equals(message.getCommand())) {
-            UserService userService = new UserService();
-            User user = (User)message.getData();
-            message.setFlag(userService.checkUser(user));
-            if (message.isFlag()) {
-                SocketThread socketThread = new SocketThread();
-                socketThread.setName(message.getSender());
-                socketThread.setSocket(socket);
-                SocketList.addSocket(socketThread);
-                message.setResult("loginSucceeded");
-            }
-            else {
-                message.setResult("loginFailed");
-            }
-        }
-        else if ("register".equals(message.getCommand())) {
-            UserService userService = new UserService();
-            User user = (User)message.getData();
-            boolean hasUsername = userService.checkUsername(user);
-            if (!hasUsername) {
-                message.setFlag(userService.addUser(user));
-                message.setResult("registerSucceeded");
-            }
-            else {
-                message.setResult("usernameDuplicated");
-            }
-        }
-        else if ("addGood".equals(message.getCommand())) {
-            GoodService goodService = new GoodService();
-            Good good = (Good)message.getData();
-            if(!goodService.addGood(good)){
-                message.setResult("addGoodSucceeded");
-            }
-            else {message.setResult("addGoodFailed");}
-        }
-        else if("deleteGood".equals(message.getCommand())){
-            GoodService goodService = new GoodService();
-            Good good = (Good)message.getData();
-            if(!goodService.checkGood(good)){
-                message.setResult("goodDeleteSucceeded");
-            }
-            else{message.setResult("goodDeleteFailed");}
-        }
-        return message;
     }
 }
