@@ -10,12 +10,35 @@ import java.net.Socket;
 
 /** @author MnAs & Fe */
 public class CommandAnalyser {
+    private static final String REGISTER = "register";
+    private static final String LOGIN = "login";
+    private static final String GETGOODS = "getgoods";
 
     public CommandAnalyser() {
         super();
     }
+
     public static CommandTranser analyse(CommandTranser message, Socket socket) {
-        if ("login".equals(message.getCommand())) {
+        if (REGISTER.equals(message.getCommand())) {
+            UserService userService = new UserService();
+            User user = (User)message.getData();
+
+            boolean hasUsername = userService.checkUsername(user);
+            if (!hasUsername) {
+                message.setFlag(userService.addUser(user));
+                if (message.isFlag()) {
+                    message.setResult("registerSucceeded");
+                }
+                else {
+                    message.setResult("registerFailed");
+                }
+            }
+            else {
+                message.setResult("usernameDuplicated");
+            }
+        }
+
+        else if (LOGIN.equals(message.getCommand())) {
             UserService userService = new UserService();
             User user = (User)message.getData();
             message.setFlag(userService.checkUser(user));
@@ -30,18 +53,15 @@ public class CommandAnalyser {
                 message.setResult("loginFailed");
             }
         }
-        else if ("register".equals(message.getCommand())) {
-            UserService userService = new UserService();
-            User user = (User)message.getData();
-            boolean hasUsername = userService.checkUsername(user);
-            if (!hasUsername) {
-                message.setFlag(userService.addUser(user));
-                message.setResult("registerSucceeded");
-            }
-            else {
-                message.setResult("usernameDuplicated");
-            }
+        else if (GETGOODS.equals(message.getCommand())) {
+            GoodService goodService = new GoodService();
+            message.setData(goodService.getGoodList());
         }
+
+
+
+
+
         else if ("addGood".equals(message.getCommand())) {
             GoodService goodService = new GoodService();
             Good good = (Good)message.getData();
