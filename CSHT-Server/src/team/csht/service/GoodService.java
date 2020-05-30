@@ -14,7 +14,7 @@ public class GoodService {
         Connection connection = databaseConnection.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String sql = "select * from goods where id=?";
+        String sql = "SELECT * FROM goods WHERE id=?";
 
         try {
             statement = connection.prepareStatement(sql);
@@ -49,7 +49,7 @@ public class GoodService {
         Connection connection = databaseConnection.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT * FROM goods";
+        String sql = "SELECT * FROM goods ORDER BY id";
         Good[] goodList = null;
 
         try {
@@ -68,8 +68,22 @@ public class GoodService {
             }
         }
         catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "错误码05");
+            JOptionPane.showMessageDialog(null, "错误码09");
             e.printStackTrace();
+        }
+        finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+            }
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "错误码08");
+                e.printStackTrace();
+            }
         }
         return goodList;
     }
@@ -90,7 +104,7 @@ public class GoodService {
             statement.executeUpdate();
         }
         catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "错误码06");
+            JOptionPane.showMessageDialog(null, "错误码91");
             e.printStackTrace();
         }
         finally {
@@ -120,7 +134,7 @@ public class GoodService {
             statement.executeUpdate();
         }
         catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "错误码09");
+            JOptionPane.showMessageDialog(null, "错误码90");
             e.printStackTrace();
         }
         finally {
@@ -134,5 +148,51 @@ public class GoodService {
             }
         }
         return good.isExistence();
+    }
+
+    public Good[] searchGood(String keyword) {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        Connection connection = databaseConnection.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM goods WHERE name LIKE ? ORDER BY id";
+        String searchWord = "%" + keyword + "%";
+        Good[] goodList = null;
+
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, searchWord);
+            resultSet = statement.executeQuery();
+            int length = resultSet.getRow();
+
+            for (int i = 0; i < length; i ++) {
+                goodList[i].setId(resultSet.getInt("id"));
+                goodList[i].setName(resultSet.getString("name"));
+                goodList[i].setMerchant(resultSet.getString("merchant"));
+                goodList[i].setBuyer(resultSet.getString("buyer"));
+                goodList[i].setPrice(resultSet.getFloat("price"));
+                goodList[i].setExistence(resultSet.getBoolean("existence"));
+                resultSet.next();
+            }
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "错误码92");
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+            }
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "错误码94");
+                e.printStackTrace();
+            }
+        }
+        return goodList;
     }
 }

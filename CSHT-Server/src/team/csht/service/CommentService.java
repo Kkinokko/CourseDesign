@@ -12,7 +12,6 @@ public class CommentService {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         Connection connection = databaseConnection.getConnection();
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
         String sql = "INSERT INTO comments (good_id, username, content, time) " +
                 "VALUES (?, ?, ?, ?)";
 
@@ -31,9 +30,6 @@ public class CommentService {
         }
         finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
                 if (statement != null) {
                     statement.close();
                 }
@@ -51,7 +47,7 @@ public class CommentService {
         Connection connection = databaseConnection.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT * FROM comments WHERE good_id=?";
+        String sql = "SELECT * FROM comments WHERE good_id=? ORDER BY time";
         Comment[] commentList = null;
 
         try {
@@ -72,6 +68,20 @@ public class CommentService {
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, "错误码12");
             e.printStackTrace();
+        }
+        finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+            }
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "错误码94");
+                e.printStackTrace();
+            }
         }
         return commentList;
     }
