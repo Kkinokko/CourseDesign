@@ -118,6 +118,8 @@ class LoginFrame implements ActionListener {
         loginFrame.dispose();
     }
     public void jumpToMain(String username) {
+        //保留这个用户名设置为空的话，后面的upload、main拿到的用户名都为“ ”了
+        //所以要不要把下面第一行注释掉？
         loginUsernameTextField.setText("");
         loginPasswordField.setText("");
         // TODO:跳转到MainFrame(需保留账号信息)
