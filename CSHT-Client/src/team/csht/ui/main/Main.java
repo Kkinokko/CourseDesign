@@ -1,6 +1,10 @@
 package team.csht.ui.main;
 
 import team.csht.entity.Good;
+import team.csht.socket.Client;
+import team.csht.ui.im.*;
+import team.csht.ui.welcome.Login;
+import team.csht.util.CommandTranser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +12,7 @@ import java.awt.*;
 public class Main extends JFrame {
     public Main(){
         new MainFrame("username0");
+        //new MainFrame(Login.userName);
     }
     public static void main(String[] args)
     {
@@ -42,20 +47,42 @@ public class Main extends JFrame {
          JButton g2 = new JButton("详细信息");
          g2.addActionListener(e -> {
              if(e.getSource()==g2){
-                 new Single(g);
+                 new Single(g,username);
                  this.dispose();
              }
          });
          JButton g3 = new JButton("购买商品");
+         g3.addActionListener(e -> {
+             if(e.getSource()==g3){
+                 g.setExistence(false);
+                 g.setBuyer(Login.userName);
+                 CommandTranser message = new CommandTranser();
+                 message.setCommand("buyGood");
+                 message.setData(g);
+                 message.setSender(Login.userName);
+                 message.setReceiver(Login.userName);//这里需要返回是否购买成功吗？
+                 Client client = new Client();
+                 client.sendData(message);
+                 message = client.getData();
+                 if (message != null) {
+                     if (message.isFlag()) {
+                         new IM();//TODO:之后正式版把这里改成new IMFrame(username,???);
+                     }
+                     else {
+                         JOptionPane.showMessageDialog(null, "商品购买失败!");
+                     }
+                 }
+             }
+         });
          JPanel c2 = new JPanel();
          c2.add(g2);
          c2.add(g3);
          c2.setOpaque(false);
          // right
          JLabel g4 = new JLabel("商品名称： "+g.getName());
-         JLabel g5 = new JLabel("商家： "+g.getMerchant());
+         JLabel g5 = new JLabel("卖家： "+g.getMerchant());
          JButton g6 = new JButton("联系");
-         //记得以后给这个按钮一个交代。。。
+         //记得以后给这个按钮一个交代。。。来了
          JLabel g7 = new JLabel("价格： "+g.getPrice());
          JPanel c3 =new JPanel();
          JPanel c4 = new JPanel();
@@ -108,17 +135,50 @@ class MainFrame {
         Menu ll = new Menu();
         ll.a2.addActionListener(e -> {
             if(e.getSource()==ll.a2){
-                new UploadFrame();
+                new UploadFrame(username);
                 main.dispose();
             }
         });
         Box left = ll.getMenu();
+        //搜索栏
+        JPanel searchPanel = new JPanel();
+        searchPanel.setOpaque(false);
+        JTextField searchField = new JTextField(25);
+        JButton searchButton = new JButton("搜索");
+        searchButton.addActionListener(e -> {
+            if(e.getSource()==searchButton){
+                CommandTranser message = new CommandTranser();
+                message.setCommand("searchGood");
+                message.setData(searchField.getText().trim());
+                message.setSender(username);
+                message.setReceiver(username);
+                Client client = new Client();
+                client.sendData(message);
+                message = client.getData();
+                if (message != null) {
+                    if (message.isFlag()) {
+                        //JOptionPane.showMessageDialog(null, "商品提交成功！");
+
+                        //TODO:刷新并把返回的商品数组列出来，我先去CSDN康康
+
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "未搜索到此商品!");
+                    }
+                }
+            }
+        });
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+        main.right1.add(searchPanel);
+
         //
         JScrollPane jsp= new JScrollPane();
         jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jsp.setOpaque(false);
         jsp.getViewport().setOpaque(false);
         jsp.setViewportView(main.right1);
+        //
         Box all = Box.createHorizontalBox();
         all.add(left);
         all.add(Box.createHorizontalStrut(80));

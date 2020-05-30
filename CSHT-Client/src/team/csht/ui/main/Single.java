@@ -12,9 +12,11 @@ import static team.csht.ui.welcome.Login.userName;
 
 public class Single {
     private Label loginUsernameTextField;
-    String username = userName;
-        public Single(Good g) {
+        String username;
+        //TODO:获取一个评论数组
+        public Single(Good g,String username) {
             //初始化
+            this.username=username;
             JFrame singleFrame = new JFrame();
             singleFrame.setResizable(false);
             singleFrame.setSize(700, 500);
@@ -37,7 +39,7 @@ public class Single {
             });
             ll.a2.addActionListener(e -> {
                 if (e.getSource() == ll.a2) {
-                    new UploadFrame();
+                    new UploadFrame(username);
                     singleFrame.dispose();
                 }
             });
@@ -79,8 +81,8 @@ public class Single {
                     CommandTranser message = new CommandTranser();
                     message.setCommand("deleteGood");
                     message.setData(g);
-                    message.setSender(Login.userName);
-                    message.setReceiver(Login.userName);
+                    message.setSender(username);
+                    message.setReceiver(username);
                     Client client = new Client();
                     client.sendData(message);
                     message = client.getData();
