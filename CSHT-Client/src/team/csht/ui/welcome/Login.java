@@ -25,7 +25,9 @@ public class Login{
     public Login(){
     LoginFrame log = new LoginFrame();
     }
-    public static final User logUser = new User(LoginFrame.loginUsernameTextField.getText(), LoginFrame.loginPasswordField.getText());
+    //public static final String userName =LoginFrame.loginUsernameTextField.getText();
+    public static final String userName ="username0";
+
 }
 
 class LoginFrame implements ActionListener {
@@ -149,7 +151,7 @@ class LoginFrame implements ActionListener {
                     jumpToMain(username);
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "登录失败");
+                    JOptionPane.showMessageDialog(null, "登录失败!");
                 }
             }
         }

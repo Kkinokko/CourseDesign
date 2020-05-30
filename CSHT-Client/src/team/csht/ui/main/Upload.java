@@ -154,8 +154,8 @@ class UploadFrame extends JFrame
         CommandTranser message = new CommandTranser();
         message.setCommand("addGood");
         message.setData(g);
-        message.setSender(Login.logUser.getUsername());
-        message.setReceiver(Login.logUser.getUsername());
+        message.setSender(Login.userName);
+        message.setReceiver(Login.userName);
         Client client = new Client();
         client.sendData(message);
         message = client.getData();
@@ -165,7 +165,7 @@ class UploadFrame extends JFrame
                 JOptionPane.showMessageDialog(null, "商品提交成功！");
             }
             else {
-                JOptionPane.showMessageDialog(null, "商品提交失败");
+                JOptionPane.showMessageDialog(null, "商品提交失败!");
             }
         }
 
