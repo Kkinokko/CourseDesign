@@ -1,4 +1,5 @@
 package team.csht.ui.im;
+import team.csht.entity.ShortMessage;
 import team.csht.socket.Client;
 import team.csht.socket.ClientThread;
 import team.csht.util.CommandTranser;
@@ -17,7 +18,7 @@ public class IM {
 }
 class IMFrame implements ActionListener {
     String username = "username0";
-    String friend = "username1";
+    String receiver = "username1";
     Client client = null;
     ClientThread thread;
 
@@ -92,7 +93,7 @@ class IMFrame implements ActionListener {
         imBox.add(Box.createVerticalStrut(30));
         imBox.add(sendPanel);
         //创一个JSP把它们装进去
-        //
+
         Box lastBox = Box.createHorizontalBox();
         lastBox.add(Box.createHorizontalStrut(40));
         lastBox.add(imBox);
@@ -122,23 +123,49 @@ class IMFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == receiverButton) {
-            this.friend = receiverTextField.getText();
+            this.receiver = receiverTextField.getText();
+            ShortMessage shortMessage = new ShortMessage();
+            shortMessage.setSender(username);
+            shortMessage.setReceiver(receiver);
+            CommandTranser message = new CommandTranser();
+            message.setCommand("getShortMessage");
+            message.setSender(username);
+            message.setReceiver(username);
+            client.sendData(message);
+
+            ShortMessage[] shortMessageList = (ShortMessage[])client.getData().getData();
+            setLogLabel(shortMessageList);
         }
         if (e.getSource() == sendButton) {
-            String content = sendTextArea.getText();
-            Date date = new Date();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd hh:mm:ss a");
-            String messageString = "你说：" + sendTextArea.getText() + "\t"
-                    + simpleDateFormat.format(date) + "\n";
-            logLabel.append(messageString);
+            ShortMessage shortMessage = new ShortMessage();
+            shortMessage.setSender(username);
+            shortMessage.setReceiver(receiver);
+            shortMessage.setContent(sendTextArea.getText().trim());
 
-            CommandTranser msg = new CommandTranser();
-            msg.setCommand("message");
-            msg.setSender(username);
-            msg.setReceiver(friend);
-            msg.setData(sendTextArea.getText());
-            client.sendData(msg);
+            CommandTranser message = new CommandTranser();
+            message.setCommand("addShortMessage");
+            message.setSender(username);
+            message.setReceiver(receiver);
+            message.setData(shortMessage);
+            client.sendData(message);
+
             sendTextArea.setText(null);
+            message.setCommand("getShortMessage");
+            client.sendData(message);
+            ShortMessage[] shortMessageList = (ShortMessage[])client.getData().getData();
+            setLogLabel(shortMessageList);
+        }
+    }
+
+    public void setLogLabel(ShortMessage[] shortMessageList) {
+        int length = shortMessageList.length;
+        logLabel.setText(null);
+        for (int i = 0; i < length; i ++) {
+            String sender = shortMessageList[i].getSender();
+            String receiver = shortMessageList[i].getReceiver();
+            String content = shortMessageList[i].getContent();
+            String messageString = sender + " 对 " + receiver + " 说： \n" + content + "\n";
+            logLabel.append(messageString);
         }
     }
 }
