@@ -16,7 +16,6 @@ public class Main extends JFrame {
     }
     public static void main(String[] args)
     {
-        
         new MainFrame("username0");
     }
 }
@@ -24,8 +23,8 @@ public class Main extends JFrame {
  class MainFrame1 extends JFrame{
     String username = "";
     Box right1 = Box.createVerticalBox();
+    Box right2 = Box.createVerticalBox();
      JFrame mainFrame = new JFrame();
-    //JPanel right = new JPanel();
     public  MainFrame1(String username){
         this.username = username;
     }
@@ -81,15 +80,12 @@ public class Main extends JFrame {
          // right
          JLabel g4 = new JLabel("商品名称： "+g.getName());
          JLabel g5 = new JLabel("卖家： "+g.getMerchant());
-         JButton g6 = new JButton("联系");
-         //记得以后给这个按钮一个交代。。。来了
          JLabel g7 = new JLabel("价格： "+g.getPrice());
          JPanel c3 =new JPanel();
          JPanel c4 = new JPanel();
          JPanel c5 = new JPanel();
          c3.add(g4);
          c4.add(g5);
-         c4.add(g6);
          c5.add(g7);
          c3.setOpaque(false);
          c4.setOpaque(false);
@@ -106,18 +102,37 @@ public class Main extends JFrame {
          f3.add(f1);
          f3.add(f2);
          right1.add(f3);
-         right1.add(Box.createVerticalStrut(70));
      }
+    public void repaint(){right1= Box.createVerticalBox();}
 }
 
 class MainFrame {
+    Good[] receive;
     public MainFrame(String username){
+        //刷新并把返回的商品数组列出来
+        CommandTranser message0 = new CommandTranser();
+        message0.setCommand("getGoodList");
+        message0.setData("come on");
+        message0.setSender(username);
+        message0.setReceiver(username);
+        Client client0 = new Client();
+        client0.sendData(message0);
+        message0 = client0.getData();
+        if (message0!= null) {
+            if (message0.isFlag()) {
+                //JOptionPane.showMessageDialog(null, "商品提交成功！");
+                receive = (Good[])message0.getData();
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "未获取商品列表，请按左边的“浏览商品”刷新");
+            }
+        }
 
-        Good first = new Good("001","卡片",1);
+        Good first = new Good(41,"卡片",1);
         first.setMerchant("username0");
-        Good second = new Good("002","抹布",10);
-        Good third = new Good("003","miku",1000);
-        Good forth = new Good("004","空",2);
+        Good second = new Good(42,"抹布",10);
+        Good third = new Good(43,"miku",1000);
+        Good forth = new Good(44,"空",2);
         MainFrame1 main = new MainFrame1("username0");
 
         main.setResizable(false);
@@ -145,29 +160,6 @@ class MainFrame {
         searchPanel.setOpaque(false);
         JTextField searchField = new JTextField(25);
         JButton searchButton = new JButton("搜索");
-        searchButton.addActionListener(e -> {
-            if(e.getSource()==searchButton){
-                CommandTranser message = new CommandTranser();
-                message.setCommand("searchGood");
-                message.setData(searchField.getText().trim());
-                message.setSender(username);
-                message.setReceiver(username);
-                Client client = new Client();
-                client.sendData(message);
-                message = client.getData();
-                if (message != null) {
-                    if (message.isFlag()) {
-                        //JOptionPane.showMessageDialog(null, "商品提交成功！");
-
-                        //TODO:刷新并把返回的商品数组列出来，我先去CSDN康康
-
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "未搜索到此商品!");
-                    }
-                }
-            }
-        });
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
         main.right1.add(searchPanel);
@@ -184,10 +176,47 @@ class MainFrame {
         all.add(Box.createHorizontalStrut(80));
         all.add(jsp);
 
+        searchButton.addActionListener(e -> {
+            if(e.getSource()==searchButton){
+                CommandTranser message = new CommandTranser();
+                message.setCommand("searchGood");
+                message.setData(searchField.getText().trim());
+                message.setSender(username);
+                message.setReceiver(username);
+                Client client = new Client();
+                client.sendData(message);
+                message = client.getData();
+                if (message != null) {
+                    if (message.isFlag()) {
+                        //JOptionPane.showMessageDialog(null, "商品提交成功！");
+                        //法一
+                        Good[] result =(Good[])message.getData();
+                        main.repaint();
+                        for(int i=0;i<result.length;i++){
+                            main.addGood1(result[i]);
+                        }
+                        //法二：all.remove(jsp),然后造另一个jsp
+                        //TODO:刷新并把返回的商品数组列出来，我先去CSDN康康
+
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "未搜索到此商品!");
+                    }
+                }
+            }
+        });
+
         main.addGood1(first);
         main.addGood1(second);
         main.addGood1(third);
         main.addGood1(forth);
+        //填装商品列表
+        for(int j =0;j<receive.length;j++){
+            if(receive[j].isExistence()){
+                main.addGood1(receive[j]);
+            }
+        }
+
         main.setContentPane(all);
         main.setVisible(true);
     }

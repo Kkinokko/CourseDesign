@@ -7,7 +7,7 @@ import javax.swing.Icon;
 public class Good implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    private int id;
     private String name;
     private String merchant;
     private String buyer;
@@ -18,7 +18,7 @@ public class Good implements Serializable {
     public Good() {
         super();
     }
-    public Good(String id, String name, double price) {
+    public Good(int id, String name, double price) {
         super();
         this.id=id;
         this.name=name;
@@ -30,10 +30,10 @@ public class Good implements Serializable {
         this.price=price;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     public String getName() {
