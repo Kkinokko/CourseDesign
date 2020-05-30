@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Good implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    private int id;
     private String name;
     private String merchant;
     private String buyer;
@@ -18,17 +18,17 @@ public class Good implements Serializable {
     public Good() {
         super();
     }
-    public Good(String id, String name, float price) {
+    public Good(int id, String name, float price) {
         super();
         this.id=id;
         this.name=name;
         this.price=price;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     public String getName() {

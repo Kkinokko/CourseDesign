@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 /** @author MnAs & Fe */
-public class Message implements Serializable {
+public class ShortMessage implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int number;
@@ -13,10 +13,10 @@ public class Message implements Serializable {
     private String content;
     private Timestamp time;
 
-    public Message() {
+    public ShortMessage() {
         super();
     }
-    public Message(String sender, String receiver, String content) {
+    public ShortMessage(String sender, String receiver, String content) {
         super();
     }
 

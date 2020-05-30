@@ -2,7 +2,7 @@ package team.csht.entity;
 import java.sql.Timestamp;
 
 /** @author MnAs & Fe */
-public class Message {
+public class ShortMessage {
     private static final long serialVersionUID = 1L;
 
     private int number;
@@ -11,10 +11,10 @@ public class Message {
     private String content;
     private Timestamp time;
 
-    public Message() {
+    public ShortMessage() {
         super();
     }
-    public Message(String sender, String receiver, String content) {
+    public ShortMessage(String sender, String receiver, String content) {
         super();
     }
 

@@ -12,7 +12,9 @@ import java.net.Socket;
 public class CommandAnalyser {
     private static final String REGISTER = "register";
     private static final String LOGIN = "login";
-    private static final String GETGOODS = "getgoods";
+    private static final String GET_GOOD_LIST = "getGoodList";
+    private static final String ADD_GOOD = "addGood";
+    private static final String BUY_GOOD = "buyGood";
 
     public CommandAnalyser() {
         super();
@@ -53,33 +55,38 @@ public class CommandAnalyser {
                 message.setResult("loginFailed");
             }
         }
-        else if (GETGOODS.equals(message.getCommand())) {
+
+        else if (GET_GOOD_LIST.equals(message.getCommand())) {
             GoodService goodService = new GoodService();
             message.setData(goodService.getGoodList());
+            if (message.getData() != null) {
+                message.setFlag(true);
+                message.setResult("getGoodListSucceeded");
+            }
+            else {
+                message.setResult("");
+            }
         }
 
-
-
-
-
-        else if ("addGood".equals(message.getCommand())) {
+        else if (ADD_GOOD.equals(message.getCommand())) {
             GoodService goodService = new GoodService();
             Good good = (Good)message.getData();
-            if(!goodService.addGood(good)){
+            if(goodService.addGood(good)){
                 message.setResult("addGoodSucceeded");
             }
             else {
                 message.setResult("addGoodFailed");
             }
         }
-        else if("deleteGood".equals(message.getCommand())){
+
+        else if(BUY_GOOD.equals(message.getCommand())){
             GoodService goodService = new GoodService();
             Good good = (Good)message.getData();
-            if(!goodService.checkGood(good)){
-                message.setResult("goodDeleteSucceeded");
+            if (goodService.buyGood(good)) {
+                message.setResult("buyGoodSucceeded");
             }
             else {
-                message.setResult("goodDeleteFailed");
+                message.setResult("buyGoodFailed");
             }
         }
         return message;
