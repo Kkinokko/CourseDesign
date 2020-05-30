@@ -1,23 +1,80 @@
 package team.csht.ui.main;
 
+import team.csht.entity.Comment;
 import team.csht.entity.Good;
 import team.csht.socket.Client;
+import team.csht.ui.im.IM;
 import team.csht.ui.welcome.Login;
 import team.csht.util.CommandTranser;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import static team.csht.ui.welcome.Login.userName;
+class Single0 extends JFrame{
+    String username = "";
+    Box right0 = Box.createVerticalBox();
+    JFrame mainFrame = new JFrame();
+    public  Single0(String username){
+        this.username = username;
+    }
+    public void addComment(Comment comment){
+        String use = comment.getUsername();
+        String content = comment.getContent();
+        Timestamp time = comment.getTimestamp();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String now = df.format(time);
+
+        //
+        JPanel c1= new JPanel();
+        JLabel g0 = new JLabel(now);
+        c1.add(g0);
+        JPanel c2 = new JPanel();
+        JLabel g1= new JLabel(use);
+        JLabel g2 = new JLabel(content);
+        c2.add(g1);
+        c2.add(g2);
+        c1.setOpaque(false);
+        c2.setOpaque(false);
+        Box com = Box.createVerticalBox();
+        com.add(c1);
+        com.add(c2);
+        right0.add(com);
+    }
+}
+
 
 public class Single {
     private Label loginUsernameTextField;
         String username;
         //TODO:获取一个评论数组
+        Comment[] receive ;
+        Good g;
         public Single(Good g,String username) {
+            this.g = g;
+            CommandTranser message0 = new CommandTranser();
+            message0.setCommand("getCommentList");
+            message0.setData(g);
+            message0.setSender(username);
+            message0.setReceiver(username);
+            Client client0 = new Client();
+            client0.sendData(message0);
+            message0 = client0.getData();
+            if (message0!= null) {
+                if (message0.isFlag()) {
+                    //JOptionPane.showMessageDialog(null, "商品提交成功！");
+                    receive = (Comment[]) message0.getData();
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "未获取商品列表，请按左边的“浏览商品”刷新");
+                }
+            }
+
             //初始化
             this.username=username;
-            JFrame singleFrame = new JFrame();
+            Single0 singleFrame = new Single0(username);
             singleFrame.setResizable(false);
             singleFrame.setSize(700, 500);
             singleFrame.setTitle("物品详情");
@@ -113,17 +170,18 @@ public class Single {
             right.add(reloadPanel);
             }
             right.setOpaque(false);
-            /*
-
-
-            这里加评论区
-            另写一个类也挺好
-
-            评论区Panel.add（评论区）;
-            right.add(评论区Panel);
-
-
-            */
+            //评论区
+           for (int i=0;i<receive.length;i++)
+           { singleFrame.addComment(receive[i]); }
+           JPanel speakerPanel = new JPanel();
+           speakerPanel.setOpaque(false);
+           JTextField speakerField = new JTextField(30);
+           JButton speakerButton = new JButton("发送评论");
+           speakerPanel.add(speakerField);
+           speakerPanel.add(speakerButton);
+            right.add(singleFrame.right0);
+            right.add(speakerPanel);
+            //
             JScrollPane jsp = new JScrollPane();
             jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
             jsp.setOpaque(false);
@@ -134,11 +192,40 @@ public class Single {
             all.add(left);
             all.add(Box.createHorizontalStrut(50));
             all.add(jsp);
-            //监听键
-            //updateEnter.addActionListener(this);
+
             //
             singleFrame.setContentPane(all);
             singleFrame.setVisible(true);
+
+            speakerButton.addActionListener(e -> {
+                if(e.getSource()==speakerButton){
+
+                    if(speakerField.getText().equals("")||speakerField.getText()==null)
+                    { JOptionPane.showMessageDialog(null, "请输入评论！");}
+                    else{
+                        String sendContent = speakerField.getText();
+                        Comment speak = new Comment(username,sendContent);
+                        speak.setGoodId(g.getId());
+                        CommandTranser message2 = new CommandTranser();
+                        message2.setCommand("addComment");
+                        message2.setData(speak);
+                        message2.setSender(username);
+                        message2.setReceiver(username);
+                        Client client2 = new Client();
+                        client2.sendData(message2);
+                        message2 = client2.getData();
+                        if (message2!= null) {
+                            if (message2.isFlag()) {
+                                JOptionPane.showMessageDialog(null, "评论发布成功！");
+                            }
+                            else {
+                                JOptionPane.showMessageDialog(null, "评论发布失败");
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
+
 

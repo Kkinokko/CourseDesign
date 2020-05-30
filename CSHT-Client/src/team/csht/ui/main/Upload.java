@@ -23,10 +23,12 @@ class UploadFrame extends JFrame
     private ImageIcon selectedPhoto;
     private JTextField updateName = new JTextField(15);
     private  JTextField updatePrice = new JTextField(15);
+    public String username = "";
 
     public UploadFrame(String username)
     {
-        //初始化
+        //
+        this.username=username;
         JFrame updateFrame = new JFrame();
         updateFrame.setResizable(false);
         updateFrame.setSize(700, 500);
@@ -100,6 +102,11 @@ class UploadFrame extends JFrame
         enterPanel.setOpaque(false);
 
         enterPanel.add(updateEnter);
+        updateEnter.addActionListener(e -> {
+            if(e.getSource()==updateEnter){
+                updateGood(username);
+            }
+        });
         //整合右方
         Box right =  Box.createVerticalBox();
         right.add(leftUp);
@@ -121,7 +128,7 @@ class UploadFrame extends JFrame
         all.add(jsp);
         //监听键
         //updateEnter.addActionListener(this);
-        //
+        //TODO:?？这是干嘛的？？？
         updateFrame.setContentPane(all);
         updateFrame.setVisible(true);
 
