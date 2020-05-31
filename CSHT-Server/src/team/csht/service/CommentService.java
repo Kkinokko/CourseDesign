@@ -23,6 +23,7 @@ public class CommentService {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             statement.setTimestamp(4, timestamp);
             statement.executeUpdate();
+            return true;
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, "错误码10");
@@ -48,21 +49,25 @@ public class CommentService {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         String sql = "SELECT * FROM comments WHERE good_id=? ORDER BY time";
-        Comment[] commentList = null;
+        Comment[] commentList = new Comment[100];
 
         try {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, goodId);
             resultSet = statement.executeQuery();
-            int length = resultSet.getRow();
+            resultSet.next();
 
-            for (int i = 0; i < length; i ++) {
-                commentList[i].setNumber(resultSet.getInt("number"));
-                commentList[i].setGoodId(resultSet.getInt("good_id"));
-                commentList[i].setUsername(resultSet.getString("content"));
-                commentList[i].setTimestamp(resultSet.getTimestamp("time"));
+            for (int i = 0; ; i ++) {
+                commentList[i] = new Comment();
+                commentList[i].setNumber(resultSet.getInt(1));
+                commentList[i].setGoodId(resultSet.getInt(2));
+                commentList[i].setUsername(resultSet.getString(3));
+                commentList[i].setContent(resultSet.getString(4));
+                commentList[i].setTimestamp(resultSet.getTimestamp(5));
 
-                resultSet.next();
+                if(!resultSet.next()) {
+                    break;
+                }
             }
         }
         catch (Exception e) {

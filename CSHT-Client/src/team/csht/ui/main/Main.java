@@ -44,12 +44,12 @@ import java.awt.*;
          g3.addActionListener(e -> {
              if(e.getSource()==g3){
                  g.setExistence(false);
-                 g.setBuyer(Login.userName);
+                 g.setBuyer(username);
                  CommandTranser message = new CommandTranser();
                  message.setCommand("buyGood");
                  message.setData(g);
-                 message.setSender(Login.userName);
-                 message.setReceiver(Login.userName);//这里需要返回是否购买成功吗？
+                 message.setSender(username);
+                 message.setReceiver(username);//这里需要返回是否购买成功吗？
                  client.sendData(message);
                  message = client.getData();
                  if (message != null) {
@@ -92,6 +92,7 @@ import java.awt.*;
          f3.add(f2);
          right1.add(f3);
      }
+    @Override
     public void repaint(){right1= Box.createVerticalBox();}
 }
 
@@ -181,10 +182,14 @@ public class Main {
                     if (message.isFlag()) {
                         //JOptionPane.showMessageDialog(null, "商品提交成功！");
                         //法一
-                        Good[] result =(Good[])message.getData();
+                        Good result[] = new Good[100];
+                        result =(Good[])message.getData();
                         main.right1.removeAll();
                         main.right1.repaint();
                         for(int i=0;i<result.length;i++){
+                            if (result[i] == null) {
+                                break;
+                            }
                             main.addGood1(result[i]);
                         }
                         main.right1.revalidate();
@@ -203,6 +208,9 @@ public class Main {
         main.addGood1(forth);
         //填装商品列表
         for(int j =0;j<receive.length;j++){
+            if(receive[j] == null) {
+                break;
+            }
             if(receive[j].isExistence()){
                 main.addGood1(receive[j]);
             }

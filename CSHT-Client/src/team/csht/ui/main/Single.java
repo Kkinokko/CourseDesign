@@ -28,7 +28,7 @@ class Single0 extends JFrame{
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String now = df.format(time);
 
-        //
+
         JPanel c1= new JPanel();
         JLabel g0 = new JLabel(now);
         c1.add(g0);
@@ -52,6 +52,7 @@ public class Single {
         Comment[] receive ;
         Good g;
         Client client;
+        Boolean yes=false;
         public Single(Good g,String username,Client client) {
             this.g = g;
             this.client=client;
@@ -66,10 +67,9 @@ public class Single {
                 if (message0.isFlag()) {
                     //JOptionPane.showMessageDialog(null, "商品提交成功！");
                     receive = (Comment[]) message0.getData();
+                    yes = true;
                 }
-                else {
-                    JOptionPane.showMessageDialog(null, "未获取商品列表，请按左边的“浏览商品”刷新");
-                }
+                //else { JOptionPane.showMessageDialog(null, "未获取商品列表，请按左边的“浏览商品”刷新"); }
             }
 
             //初始化
@@ -170,8 +170,11 @@ public class Single {
             }
             right.setOpaque(false);
             //评论区
-           for (int i=0;i<receive.length;i++)
-           { singleFrame.addComment(receive[i]); }
+            if(yes)
+            {
+                for (int i=0;i<receive.length;i++)
+                { singleFrame.addComment(receive[i]); }
+            }
            JPanel speakerPanel = new JPanel();
            speakerPanel.setOpaque(false);
            JTextField speakerField = new JTextField(30);
@@ -215,31 +218,35 @@ public class Single {
                         message2 = client.getData();
                         if (message2!= null) {
                             if (message2.isFlag()) {
-                                JOptionPane.showMessageDialog(null, "评论发布成功！");
-                                //刷新界面
+                                JOptionPane.showMessageDialog(null, "评论发布成功！请手动刷新界面");
+                                /*//刷新界面
                                 singleFrame.right0.repaint();
                                 String use = speak.getUsername();
                                 String content = speak.getContent();
-                                java.util.Date date = new Date();
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd hh:mm:ss a");
-                                String now = simpleDateFormat.format(date);
+                                //java.util.Date date = new Date();
+                                //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd hh:mm:ss a");
+                                //String now = simpleDateFormat.format(date);
 
-                                JPanel c1= new JPanel();
-                                JLabel g0 = new JLabel(now);
-                                c1.add(g0);
-                                JPanel c2 = new JPanel();
-                                JLabel g1= new JLabel(use);
-                                JLabel g2 = new JLabel(content);
-                                c2.add(g1);
-                                c2.add(g2);
-                                c1.setOpaque(false);
-                                c2.setOpaque(false);
-                                Box com = Box.createVerticalBox();
-                                com.add(c1);
-                                com.add(c2);
-                                singleFrame.right0.add(com);
-                                singleFrame.right0.revalidate();
+                                //JPanel c1= new JPanel();
+                                //JLabel g0 = new JLabel(now);
+                                //c1.add(g0);
+                                //JPanel c2 = new JPanel();
+                                //JLabel g1= new JLabel(use);
+                                //JLabel g2 = new JLabel(content);
+                                //c2.add(g1);
+                                //c2.add(g2);
+                                //c1.setOpaque(false);
+                                //c2.setOpaque(false);
+                                //Box com = Box.createVerticalBox();
+                                //com.add(c1);
+                                //com.add(c2);
+                                //singleFrame.right0.add(com);
+                                //singleFrame.right0.revalidate();
+                            */
                             }
+
+
+
                             else {
                                 JOptionPane.showMessageDialog(null, "评论发布失败");
                             }

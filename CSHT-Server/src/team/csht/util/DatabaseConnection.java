@@ -9,7 +9,8 @@ public class DatabaseConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/" +
             "csht?useJDBCCompliantTimezoneShift=true" +
             "&useLegacyDatetimeCode=false" +
-            "&serverTimezone=Hongkong";
+            "&serverTimezone=Hongkong" +
+            "&characterEncoding=UTF-8";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "12345678";
     private Connection connection = null;

@@ -76,7 +76,7 @@ public class CommandAnalyser {
         else if (ADD_GOOD.equals(message.getCommand())) {
             GoodService goodService = new GoodService();
             Good good = (Good)message.getData();
-            if(goodService.addGood(good)){
+            if (goodService.addGood(good)){
                 message.setFlag(true);
                 message.setResult("addGoodSucceeded");
             }
@@ -101,6 +101,13 @@ public class CommandAnalyser {
             GoodService goodService = new GoodService();
             String keyword = (String)message.getData();
             message.setData(goodService.searchGood(keyword));
+            if (message.getData() != null) {
+                message.setFlag(true);
+                message.setResult("searchGoodSucceeded");
+            }
+            else {
+                message.setResult("searchGoodFailed");
+            }
         }
 
         else if (ADD_COMMENT.equals(message.getCommand())) {

@@ -9,62 +9,30 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class GoodService {
-    public boolean checkGood(Good good) {
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        Connection connection = databaseConnection.getConnection();
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        String sql = "SELECT * FROM goods WHERE id=?";
-
-        try {
-            statement = connection.prepareStatement(sql);
-            statement.setInt(1, good.getId());
-            resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return true;
-            }
-        }
-        catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "错误码07");
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-            }
-            catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "错误码08");
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
     public Good[] getGoodList() {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         Connection connection = databaseConnection.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT * FROM goods ORDER BY id";
-        Good[] goodList = null;
+        String sql = "SELECT * FROM `goods` WHERE existence=1 ORDER BY id";
+        Good[] goodList = new Good[100];
 
         try {
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
-            int length = resultSet.getRow();
-
-            for (int i = 0; i < length; i ++) {
-                goodList[i].setId(resultSet.getInt("id"));
-                goodList[i].setName(resultSet.getString("name"));
-                goodList[i].setMerchant(resultSet.getString("merchant"));
-                goodList[i].setBuyer(resultSet.getString("buyer"));
-                goodList[i].setPrice(resultSet.getFloat("price"));
-                goodList[i].setExistence(resultSet.getBoolean("existence"));
-                resultSet.next();
+            resultSet.next();
+            for (int i = 0; ; i ++) {
+                goodList[i] = new Good();
+                int id = resultSet.getInt(1);
+                goodList[i].setId(id);
+                goodList[i].setName(resultSet.getString(2));
+                goodList[i].setMerchant(resultSet.getString(3));
+                goodList[i].setBuyer(resultSet.getString(4));
+                goodList[i].setPrice(resultSet.getFloat(5));
+                goodList[i].setExistence(resultSet.getBoolean(6));
+                if(!resultSet.next()) {
+                    break;
+                }
             }
         }
         catch (Exception e) {
@@ -117,7 +85,7 @@ public class GoodService {
                 e.printStackTrace();
             }
         }
-        return checkGood(good);
+        return true;
     }
 
     public boolean buyGood(Good good) {
@@ -147,7 +115,7 @@ public class GoodService {
                 e.printStackTrace();
             }
         }
-        return good.isExistence();
+        return true;
     }
 
     public Good[] searchGood(String keyword) {
@@ -155,24 +123,28 @@ public class GoodService {
         Connection connection = databaseConnection.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT * FROM goods WHERE name LIKE ? ORDER BY id";
+        String sql = "SELECT * FROM `goods` WHERE name LIKE ? ORDER BY id";
         String searchWord = "%" + keyword + "%";
-        Good[] goodList = null;
+        Good[] goodList = new Good[100];
 
         try {
             statement = connection.prepareStatement(sql);
             statement.setString(1, searchWord);
             resultSet = statement.executeQuery();
-            int length = resultSet.getRow();
+            resultSet.next();
 
-            for (int i = 0; i < length; i ++) {
-                goodList[i].setId(resultSet.getInt("id"));
-                goodList[i].setName(resultSet.getString("name"));
-                goodList[i].setMerchant(resultSet.getString("merchant"));
-                goodList[i].setBuyer(resultSet.getString("buyer"));
-                goodList[i].setPrice(resultSet.getFloat("price"));
-                goodList[i].setExistence(resultSet.getBoolean("existence"));
-                resultSet.next();
+            for (int i = 0; ; i ++) {
+                goodList[i] = new Good();
+                int id = resultSet.getInt(1);
+                goodList[i].setId(id);
+                goodList[i].setName(resultSet.getString(2));
+                goodList[i].setMerchant(resultSet.getString(3));
+                goodList[i].setBuyer(resultSet.getString(4));
+                goodList[i].setPrice(resultSet.getFloat(5));
+                goodList[i].setExistence(resultSet.getBoolean(6));
+                if(!resultSet.next()) {
+                    break;
+                }
             }
         }
         catch (Exception e) {

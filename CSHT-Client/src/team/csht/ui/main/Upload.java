@@ -150,9 +150,10 @@ public class Upload extends JFrame
             num=num+(k[i++]-'0');
         }
         number=Integer.parseInt(num);
-        double price = number*1.0;
-        Good g = new Good(name,price);
-        g.setIcon(selectedPhoto);
+        float price = (float)((float)number * 1.0);
+        Good g = new Good(name, price);
+        g.setMerchant(username);
+        g.setIcon(selectedPhoto);;
 
         CommandTranser message = new CommandTranser();
         message.setCommand("addGood");
