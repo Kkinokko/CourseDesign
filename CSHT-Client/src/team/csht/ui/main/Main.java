@@ -9,24 +9,14 @@ import team.csht.util.CommandTranser;
 import javax.swing.*;
 import java.awt.*;
 
-public class Main extends JFrame {
-    public Main(){
-        new MainFrame("username0");
-        //new MainFrame(Login.userName);
-    }
-    public static void main(String[] args)
-    {
-        new MainFrame("username0");
-    }
-}
+//
 
  class MainFrame1 extends JFrame{
     String username = "";
+    Client client;
     Box right1 = Box.createVerticalBox();
-    Box right2 = Box.createVerticalBox();
-     JFrame mainFrame = new JFrame();
-    public  MainFrame1(String username){
-        this.username = username;
+    public  MainFrame1(String username ,Client client){
+        this.username = username;this.client=client;
     }
     public void addGood1(Good g){
          // picture 待会请务必把图片地址改了！！！！
@@ -46,7 +36,7 @@ public class Main extends JFrame {
          JButton g2 = new JButton("详细信息");
          g2.addActionListener(e -> {
              if(e.getSource()==g2){
-                 new Single(g,username);
+                 new Single(g,username,client);
                  this.dispose();
              }
          });
@@ -60,12 +50,11 @@ public class Main extends JFrame {
                  message.setData(g);
                  message.setSender(Login.userName);
                  message.setReceiver(Login.userName);//这里需要返回是否购买成功吗？
-                 Client client = new Client();
                  client.sendData(message);
                  message = client.getData();
                  if (message != null) {
                      if (message.isFlag()) {
-                         new IM();//TODO:之后正式版把这里改成new IMFrame(username,???);
+                         new IM(username,client);
                      }
                      else {
                          JOptionPane.showMessageDialog(null, "商品购买失败!");
@@ -106,18 +95,21 @@ public class Main extends JFrame {
     public void repaint(){right1= Box.createVerticalBox();}
 }
 
-class MainFrame {
+public class Main {
     Good[] receive;
-    public MainFrame(String username){
+    String username;
+    Client client;
+    public Main(String username,Client client){
         //刷新并把返回的商品数组列出来
+        this.client = client;
+        this.username=username;
         CommandTranser message0 = new CommandTranser();
         message0.setCommand("getGoodList");
         message0.setData("come on");
         message0.setSender(username);
         message0.setReceiver(username);
-        Client client0 = new Client();
-        client0.sendData(message0);
-        message0 = client0.getData();
+        client.sendData(message0);
+        message0 = client.getData();
         if (message0!= null) {
             if (message0.isFlag()) {
                 //JOptionPane.showMessageDialog(null, "商品提交成功！");
@@ -133,7 +125,7 @@ class MainFrame {
         Good second = new Good(42,"抹布",10);
         Good third = new Good(43,"miku",1000);
         Good forth = new Good(44,"空",2);
-        MainFrame1 main = new MainFrame1("username0");
+        MainFrame1 main = new MainFrame1(username,client);
 
         main.setResizable(false);
         main.setSize(700, 500);
@@ -150,7 +142,7 @@ class MainFrame {
         Menu ll = new Menu();
         ll.a2.addActionListener(e -> {
             if(e.getSource()==ll.a2){
-                new UploadFrame(username);
+                new Upload(username,client);
                 main.dispose();
             }
         });
@@ -183,7 +175,6 @@ class MainFrame {
                 message.setData(searchField.getText().trim());
                 message.setSender(username);
                 message.setReceiver(username);
-                Client client = new Client();
                 client.sendData(message);
                 message = client.getData();
                 if (message != null) {
@@ -198,8 +189,6 @@ class MainFrame {
                         }
                         main.right1.revalidate();
                         //法二：all.remove(jsp),然后造另一个jsp
-                        //TODO:刷新并把返回的商品数组列出来，我先去CSDN康康
-
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "未搜索到此商品!");

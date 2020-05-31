@@ -11,24 +11,19 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 
 
-public class Upload {
-    public static void  main (String[] args){
-    UploadFrame a = new UploadFrame("username0");
-    }
-}
-
-class UploadFrame extends JFrame
+public class Upload extends JFrame
 {
     private JButton updateEnter = new JButton("确定提交");
     private ImageIcon selectedPhoto;
     private JTextField updateName = new JTextField(15);
     private  JTextField updatePrice = new JTextField(15);
     public String username = "";
+    private Client client;
 
-    public UploadFrame(String username)
+    public Upload(String username,Client client)
     {
-        //
         this.username=username;
+        this.client=client;
         JFrame updateFrame = new JFrame();
         updateFrame.setResizable(false);
         updateFrame.setSize(700, 500);
@@ -45,7 +40,7 @@ class UploadFrame extends JFrame
         Menu ll = new Menu();
         ll.a1.addActionListener(e -> {
             if(e.getSource()==ll.a1){
-                new Main();
+                new Main(username,client);
                 //TODO:username加上
                 updateFrame.dispose();
             }
@@ -164,7 +159,6 @@ class UploadFrame extends JFrame
         message.setData(g);
         message.setSender(username);
         message.setReceiver(username);
-        Client client = new Client();
         client.sendData(message);
         message = client.getData();
 
