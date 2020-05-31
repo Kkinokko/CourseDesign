@@ -2,6 +2,7 @@ package team.csht.ui.welcome;
 
 import team.csht.entity.User;
 import team.csht.socket.Client;
+import team.csht.ui.main.Main;
 import team.csht.util.CommandTranser;
 
 import java.awt.*;
@@ -25,8 +26,8 @@ public class Login{
     public Login(){
     LoginFrame log = new LoginFrame();
     }
-    //public static final String userName =LoginFrame.loginUsernameTextField.getText();
-    public static final String userName ="username0";
+    public static final String userName =LoginFrame.loginUsernameTextField.getText();
+    //public static final String userName ="username0";
 
 }
 
@@ -117,11 +118,11 @@ class LoginFrame implements ActionListener {
         loginPasswordField.setText("");
         loginFrame.dispose();
     }
-    public void jumpToMain(String username) {
-        //保留这个用户名设置为空的话，后面的upload、main拿到的用户名都为“ ”了
-        //所以要不要把下面第一行注释掉？
+    public void jumpToMain(String username,Client client) {
+        new Main(username,client);
         loginUsernameTextField.setText("");
         loginPasswordField.setText("");
+        loginFrame.dispose();
         // TODO:跳转到MainFrame(需保留账号信息)
     }
 
@@ -150,7 +151,7 @@ class LoginFrame implements ActionListener {
             if (message != null) {
                 if (message.isFlag()) {
                     JOptionPane.showMessageDialog(null, "登陆成功！");
-                    jumpToMain(username);
+                    jumpToMain(username,client);
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "登录失败!");

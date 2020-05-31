@@ -10,12 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.*;
 /** @author MnAs & Fe */
-public class IM {
-    public static void main(String[] args) {
-        new IMFrame("username0", null);
-    }
-}
-class IMFrame implements ActionListener {
+public class IM implements ActionListener {
     String username = "username0";
     String friend = "username1";
     Client client = null;
@@ -28,7 +23,7 @@ class IMFrame implements ActionListener {
     JTextArea sendTextArea = new JTextArea(2,38);
     JButton sendButton = new JButton("发送");
 
-    public IMFrame(String username, Client client) {
+    public IM(String username, Client client) {
         final int DEFAULT_WIDTH = 700;
         final int DEFAULT_HEIGHT = 500;
 

@@ -10,15 +10,14 @@ import team.csht.util.CommandTranser;
 import javax.swing.*;
 import javax.xml.crypto.Data;
 import java.awt.*;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static team.csht.ui.welcome.Login.userName;
 class Single0 extends JFrame{
     String username = "";
     Box right0 = Box.createVerticalBox();
-    JFrame mainFrame = new JFrame();
     public  Single0(String username){
         this.username = username;
     }
@@ -49,21 +48,20 @@ class Single0 extends JFrame{
 
 
 public class Single {
-    private Label loginUsernameTextField;
         String username;
-        //TODO:获取一个评论数组
         Comment[] receive ;
         Good g;
-        public Single(Good g,String username) {
+        Client client;
+        public Single(Good g,String username,Client client) {
             this.g = g;
+            this.client=client;
             CommandTranser message0 = new CommandTranser();
             message0.setCommand("getCommentList");
             message0.setData(g);
             message0.setSender(username);
             message0.setReceiver(username);
-            Client client0 = new Client();
-            client0.sendData(message0);
-            message0 = client0.getData();
+            client.sendData(message0);
+            message0 = client.getData();
             if (message0!= null) {
                 if (message0.isFlag()) {
                     //JOptionPane.showMessageDialog(null, "商品提交成功！");
@@ -92,13 +90,13 @@ public class Single {
             Menu ll = new Menu();
             ll.a1.addActionListener(e -> {
                 if (e.getSource() == ll.a1) {
-                    new Main();
+                    new Main(username,client);
                     singleFrame.dispose();
                 }
             });
             ll.a2.addActionListener(e -> {
                 if (e.getSource() == ll.a2) {
-                    new UploadFrame(username);
+                    new Upload(username,client);
                     singleFrame.dispose();
                 }
             });
@@ -142,7 +140,6 @@ public class Single {
                     message.setData(g);
                     message.setSender(username);
                     message.setReceiver(username);
-                    Client client = new Client();
                     client.sendData(message);
                     message = client.getData();
 
@@ -214,34 +211,33 @@ public class Single {
                         message2.setData(speak);
                         message2.setSender(username);
                         message2.setReceiver(username);
-                        Client client2 = new Client();
-                        client2.sendData(message2);
-                        message2 = client2.getData();
+                        client.sendData(message2);
+                        message2 = client.getData();
                         if (message2!= null) {
                             if (message2.isFlag()) {
                                 JOptionPane.showMessageDialog(null, "评论发布成功！");
                                 //刷新界面
-                                singleFrame.right0.removeAll();
                                 singleFrame.right0.repaint();
-                                CommandTranser message3 = new CommandTranser();
-                                message3.setCommand("getCommentList");
-                                message3.setData(g);
-                                message3.setSender(username);
-                                message3.setReceiver(username);
-                                Client client3 = new Client();
-                                client0.sendData(message3);
-                                message3 = client3.getData();
-                                if (message3!= null) {
-                                    if (message3.isFlag()) {
-                                        //JOptionPane.showMessageDialog(null, "商品提交成功！");
-                                        receive = (Comment[]) message3.getData();
-                                    }
-                                    else {
-                                        JOptionPane.showMessageDialog(null, "未获取评论列表，请刷新");
-                                    }
-                                }
-                                for (int i=0;i<receive.length;i++)
-                                { singleFrame.addComment(receive[i]); }
+                                String use = speak.getUsername();
+                                String content = speak.getContent();
+                                java.util.Date date = new Date();
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd hh:mm:ss a");
+                                String now = simpleDateFormat.format(date);
+
+                                JPanel c1= new JPanel();
+                                JLabel g0 = new JLabel(now);
+                                c1.add(g0);
+                                JPanel c2 = new JPanel();
+                                JLabel g1= new JLabel(use);
+                                JLabel g2 = new JLabel(content);
+                                c2.add(g1);
+                                c2.add(g2);
+                                c1.setOpaque(false);
+                                c2.setOpaque(false);
+                                Box com = Box.createVerticalBox();
+                                com.add(c1);
+                                com.add(c2);
+                                singleFrame.right0.add(com);
                                 singleFrame.right0.revalidate();
                             }
                             else {
