@@ -191,10 +191,12 @@ class MainFrame {
                         //JOptionPane.showMessageDialog(null, "商品提交成功！");
                         //法一
                         Good[] result =(Good[])message.getData();
-                        main.repaint();
+                        main.right1.removeAll();
+                        main.right1.repaint();
                         for(int i=0;i<result.length;i++){
                             main.addGood1(result[i]);
                         }
+                        main.right1.revalidate();
                         //法二：all.remove(jsp),然后造另一个jsp
                         //TODO:刷新并把返回的商品数组列出来，我先去CSDN康康
 
