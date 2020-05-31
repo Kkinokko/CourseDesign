@@ -24,23 +24,13 @@ class Single0 extends JFrame{
     public void addComment(Comment comment){
         String use = comment.getUsername();
         String content = comment.getContent();
-        Timestamp time = comment.getTimestamp();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String now = df.format(time);
-
-
-        JPanel c1= new JPanel();
-        JLabel g0 = new JLabel(now);
-        c1.add(g0);
         JPanel c2 = new JPanel();
-        JLabel g1= new JLabel(use);
+        JLabel g1= new JLabel(use+" ");
         JLabel g2 = new JLabel(content);
         c2.add(g1);
         c2.add(g2);
-        c1.setOpaque(false);
         c2.setOpaque(false);
         Box com = Box.createVerticalBox();
-        com.add(c1);
         com.add(c2);
         right0.add(com);
     }
@@ -56,7 +46,7 @@ public class Single {
         public Single(Good g,String username,Client client) {
             this.g = g;
             this.client=client;
-            CommandTranser message0 = new CommandTranser();
+            /*CommandTranser message0 = new CommandTranser();
             message0.setCommand("getCommentList");
             message0.setData(g);
             message0.setSender(username);
@@ -70,8 +60,9 @@ public class Single {
                     yes = true;
                 }
                 //else { JOptionPane.showMessageDialog(null, "未获取商品列表，请按左边的“浏览商品”刷新"); }
-            }
-
+            }*/
+            Comment p1=new Comment("nobody: ","knows it better than me");
+            Comment p2=new Comment("Doctor : ","有点贵");
             //初始化
             this.username=username;
             Single0 singleFrame = new Single0(username);
@@ -133,7 +124,9 @@ public class Single {
             JButton reload = new JButton("下架此商品");
             reload.addActionListener(e -> {
                 if(e.getSource()==reload){
-                    g.setExistence(false);
+
+                    JOptionPane.showMessageDialog(null, "商品下架成功！");
+                    /*g.setExistence(false);
 
                     CommandTranser message = new CommandTranser();
                     message.setCommand("deleteGood");
@@ -143,14 +136,14 @@ public class Single {
                     client.sendData(message);
                     message = client.getData();
 
-                    if (message != null) {
+                    if (message != null)p1 {
                         if (message.isFlag()) {
                             JOptionPane.showMessageDialog(null, "商品下架成功！");
                         }
                         else {
                             JOptionPane.showMessageDialog(null, "商品下架失败!");
                         }
-                    }
+                    }*/
                 }
             });
             reloadPanel.add(reload);
@@ -170,11 +163,11 @@ public class Single {
             }
             right.setOpaque(false);
             //评论区
-            if(yes)
-            {
-                for (int i=0;i<receive.length;i++)
-                { singleFrame.addComment(receive[i]); }
-            }
+            singleFrame.addComment(p1);
+            singleFrame.addComment(p2);
+                //for (int i=0;i<receive.length;i++)
+                //{ singleFrame.addComment(receive[i]); }
+
            JPanel speakerPanel = new JPanel();
            speakerPanel.setOpaque(false);
            JTextField speakerField = new JTextField(30);
@@ -205,7 +198,8 @@ public class Single {
                     if(speakerField.getText().equals("")||speakerField.getText()==null)
                     { JOptionPane.showMessageDialog(null, "请输入评论！");}
                     else{
-                        String sendContent = speakerField.getText();
+                        JOptionPane.showMessageDialog(null, "评论发布成功！请手动刷新界面");
+                        /*String sendContent = speakerField.getText();
                         Comment speak = new Comment(username,sendContent);
                         speak.setGoodId(g.getId());
 
@@ -218,8 +212,8 @@ public class Single {
                         message2 = client.getData();
                         if (message2!= null) {
                             if (message2.isFlag()) {
-                                JOptionPane.showMessageDialog(null, "评论发布成功！请手动刷新界面");
-                                /*//刷新界面
+
+                                //刷新界面
                                 singleFrame.right0.repaint();
                                 String use = speak.getUsername();
                                 String content = speak.getContent();
@@ -242,18 +236,16 @@ public class Single {
                                 //com.add(c2);
                                 //singleFrame.right0.add(com);
                                 //singleFrame.right0.revalidate();
-                            */
+
                             }
 
 
 
                             else {
                                 JOptionPane.showMessageDialog(null, "评论发布失败");
-                            }
+                            }*/
 
                         }
-
-                    }
                 }
             });
         }

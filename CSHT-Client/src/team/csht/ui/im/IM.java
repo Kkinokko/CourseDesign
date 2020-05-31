@@ -18,9 +18,9 @@ public class IM implements ActionListener {
     ClientThread thread;
 
     JFrame imFrame = new JFrame();
-    JTextField receiverTextField = new JTextField(15);
+    JTextField receiverTextField = new JTextField("null",15);
     JButton receiverButton = new JButton("确认");
-    JTextArea logLabel = new JTextArea();
+    JTextArea logLabel = new JTextArea("username0: 这个是手办吗？\nnull: 不算是\nnull: 你感兴趣吗？\nusername0: 不，就随便问问，太贵了");
     JTextArea sendTextArea = new JTextArea(2,38);
     JButton sendButton = new JButton("发送");
 
@@ -60,7 +60,7 @@ public class IM implements ActionListener {
         logLabel.setBackground(null);
         logLabel.setFont(new Font(null, Font.PLAIN,18));
         logPanel.add(logLabel);
-        logLabel.setSize(30,500);
+        logLabel.setSize(600,500);
         JScrollPane jsp= new JScrollPane(
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER){//sp1滚动面板的大小
@@ -100,8 +100,8 @@ public class IM implements ActionListener {
 
         /*--- 线程 ---*/
         // TODO:如下
-        thread = new ClientThread(client, logLabel);
-        thread.start();
+        //thread = new ClientThread(client, logLabel);
+        //thread.start();
 
         /*--- 事件 ---*/
         imFrame.addWindowListener(new WindowAdapter() {

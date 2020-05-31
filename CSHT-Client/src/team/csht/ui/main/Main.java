@@ -43,7 +43,9 @@ import java.awt.*;
          JButton g3 = new JButton("购买商品");
          g3.addActionListener(e -> {
              if(e.getSource()==g3){
-                 g.setExistence(false);
+
+                 new IM("username0",null);
+                 /*g.setExistence(false);
                  g.setBuyer(username);
                  CommandTranser message = new CommandTranser();
                  message.setCommand("buyGood");
@@ -59,7 +61,7 @@ import java.awt.*;
                      else {
                          JOptionPane.showMessageDialog(null, "商品购买失败!");
                      }
-                 }
+                 }*/
              }
          });
          JPanel c2 = new JPanel();
@@ -104,7 +106,7 @@ public class Main {
         //刷新并把返回的商品数组列出来
         this.client = client;
         this.username=username;
-        CommandTranser message0 = new CommandTranser();
+        /*CommandTranser message0 = new CommandTranser();
         message0.setCommand("getGoodList");
         message0.setData("come on");
         message0.setSender(username);
@@ -119,10 +121,10 @@ public class Main {
             else {
                 JOptionPane.showMessageDialog(null, "未获取商品列表，请按左边的“浏览商品”刷新");
             }
-        }
+        }*/
 
-        Good first = new Good(41,"卡片",1);
-        first.setMerchant("username0");
+        Good first = new Good(41,"水杯",30);
+        first.setMerchant("who");
         Good second = new Good(42,"抹布",10);
         Good third = new Good(43,"miku",1000);
         Good forth = new Good(44,"空",2);
@@ -202,21 +204,26 @@ public class Main {
             }
         });
 
-        main.addGood1(first);
+        //main.addGood1(first);
         main.addGood1(second);
         main.addGood1(third);
         main.addGood1(forth);
+        main.addGood1(first);
         //填装商品列表
-        for(int j =0;j<receive.length;j++){
+        /*for(int j =0;j<receive.length;j++){
             if(receive[j] == null) {
                 break;
             }
             if(receive[j].isExistence()){
                 main.addGood1(receive[j]);
             }
-        }
+        }*/
 
         main.setContentPane(all);
         main.setVisible(true);
     }
+}
+
+class Test{
+    public static void main(String[] args){new Main("username0",null);}
 }
