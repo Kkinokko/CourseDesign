@@ -8,7 +8,9 @@ import team.csht.ui.welcome.Login;
 import team.csht.util.CommandTranser;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
@@ -206,6 +208,7 @@ public class Single {
                         String sendContent = speakerField.getText();
                         Comment speak = new Comment(username,sendContent);
                         speak.setGoodId(g.getId());
+
                         CommandTranser message2 = new CommandTranser();
                         message2.setCommand("addComment");
                         message2.setData(speak);
@@ -217,11 +220,36 @@ public class Single {
                         if (message2!= null) {
                             if (message2.isFlag()) {
                                 JOptionPane.showMessageDialog(null, "评论发布成功！");
+                                //刷新界面
+                                singleFrame.right0.removeAll();
+                                singleFrame.right0.repaint();
+                                CommandTranser message3 = new CommandTranser();
+                                message3.setCommand("getCommentList");
+                                message3.setData(g);
+                                message3.setSender(username);
+                                message3.setReceiver(username);
+                                Client client3 = new Client();
+                                client0.sendData(message3);
+                                message3 = client3.getData();
+                                if (message3!= null) {
+                                    if (message3.isFlag()) {
+                                        //JOptionPane.showMessageDialog(null, "商品提交成功！");
+                                        receive = (Comment[]) message3.getData();
+                                    }
+                                    else {
+                                        JOptionPane.showMessageDialog(null, "未获取评论列表，请刷新");
+                                    }
+                                }
+                                for (int i=0;i<receive.length;i++)
+                                { singleFrame.addComment(receive[i]); }
+                                singleFrame.right0.revalidate();
                             }
                             else {
                                 JOptionPane.showMessageDialog(null, "评论发布失败");
                             }
+
                         }
+
                     }
                 }
             });
